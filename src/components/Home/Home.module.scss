@@ -1,0 +1,25 @@
+@import "../../assets/scss/variables";
+@import "../../assets/scss/mixins";
+
+.home {
+  & .home__card {
+    @include content-card;
+
+    & .home__card-title {
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    & .home__card-content {
+      padding-top: 20px;
+
+      & .home__card-sum {
+        font-size: 2rem;
+        font-weight: 100;
+        & .home__card-sum-currency {
+          float: right;
+        }
+      }
+    }
+  }
+}

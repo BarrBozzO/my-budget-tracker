@@ -1,0 +1,30 @@
+@import "../../assets/scss/variables";
+@import "../../assets/scss/mixins";
+
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  overflow: hidden;
+  background-color: $theme-light-gray;
+  margin-left: 0;
+  box-shadow: 0 1px 4px 0 rgba(39, 36, 38, 0.14);
+  @include transition(margin-left);
+
+  & .sidebar_collapsed {
+    margin-left: -260px;
+  }
+
+  & .sidebar__item {
+    color: $theme-black;
+    font-size: 1.2rem;
+  }
+
+  & .sidebar__brand {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1.4rem;
+    padding: 20px 0 15px;
+    text-align: center;
+    border-bottom: 1px solid rgba($theme-black, 0.1);
+  }
+}

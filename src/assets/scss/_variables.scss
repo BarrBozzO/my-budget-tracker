@@ -8,8 +8,17 @@ $sidebar-collapsed-width: 90px;
 // Change below variable to change the height of the sticky footer
 $sticky-footer-height: 80px;
 
+// border
+$border-radius: 6px;
+
 // colors
 $theme-black: #272426;
+$theme-light-gray: #f7f8fa;
+$theme-gray: #eeeeee;
+
+// transition
+$transition-duration: 250ms;
+$transition-timing-function: ease-out;
 
 // bootstrap 4 media breakpoints
 $breakpoint-sm: 576px;

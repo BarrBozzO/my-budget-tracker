@@ -1,0 +1,12 @@
+@import "../../assets/scss/variables";
+
+.header__user {
+  display: block;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba($theme-black, 0.1);
+  border-radius: 100%;
+  background: url("../../assets/svg/user-avatar.svg") no-repeat center;
+  background-size: 80%;
+  overflow: hidden;
+}

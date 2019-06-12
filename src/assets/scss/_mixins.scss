@@ -31,3 +31,17 @@
     }
   }
 }
+
+@mixin transition($property) {
+  transition: #{$property} $transition-duration $transition-timing-function;
+}
+
+@mixin content-card {
+  border: 0;
+  border-radius: $border-radius;
+  color: $theme-black;
+  background: $theme-light-gray;
+  width: 100%;
+  box-shadow: 0 1px 4px 0 rgba($theme-black, 0.14);
+  padding: 15px;
+}
