@@ -11,7 +11,8 @@ function Welcome() {
     >
       <h1 className={classNames(styles.welcome__title)}>My Budget Tracker</h1>
       <span className={classNames(styles.welcome__message)}>
-        Manage your finance easy!
+        Plan for today and tomorrow with one solution to manage all your
+        finances.
       </span>
       <div className={"m-3"}>
         <Button className={classNames(styles.welcome__button, "mx-2")}>
