@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
+import PrivateRoute from "../Common/PrivateRoute";
 import Welcome from "../Welcome/Welcome";
 import Dashboard from "../Dashboard/Dashboard";
 
@@ -10,7 +11,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/" exact component={Welcome} />
-          <Route path="/dashboard" component={Dashboard} />
+          <PrivateRoute path="/dashboard" component={Dashboard} auth={true} />
           <Route component={() => <p>no page</p>} />
         </Switch>
       </Router>
