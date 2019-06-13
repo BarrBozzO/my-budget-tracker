@@ -6,15 +6,17 @@
     @include content-card;
 
     & .home__card-title {
-      font-size: 1.4rem;
+      font-size: 1rem;
       text-transform: uppercase;
-      font-weight: 600;
+      font-weight: 100;
+      color: $theme-dark-gray;
+      text-align: right;
     }
     & .home__card-content {
       padding-top: 20px;
 
       & .home__card-sum {
-        font-size: 2rem;
+        font-size: 1.8rem;
         font-weight: 100;
         & .home__card-sum-currency {
           float: right;

@@ -32,9 +32,9 @@ function Content() {
   ];
 
   return (
-    <div className={classNames("flex-grow-1")}>
+    <div className={classNames("d-flex flex-grow-1 flex-column")}>
       <Header />
-      <div className={classNames("container", "p-3")}>
+      <div className={classNames("d-flex", "p-3")}>
         <Switch>
           {routes.map((route, index) => (
             <Route
