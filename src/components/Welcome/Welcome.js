@@ -1,17 +1,12 @@
 import React from "react";
-import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import classNames from "classnames";
 import { Button } from "react-bootstrap";
-import { Redirect } from "react-router-dom";
 
-import { signInWithGoogleAsync } from "../../store/actions/auth";
 import styles from "./Welcome.module.scss";
 
 function Welcome(props) {
-  const { isAuthenticated } = props.auth;
-  return isAuthenticated ? (
-    <Redirect to="/dashboard" />
-  ) : (
+  return (
     <div
       className={classNames(styles.welcome, "container-fluid", "text-center")}
     >
@@ -23,7 +18,7 @@ function Welcome(props) {
       <div className={"m-3"}>
         <Button
           className={classNames(styles.welcome__button, "mx-2")}
-          onClick={() => props.signInWithGoogleAsync()}
+          onClick={() => props.handleSignIn()}
         >
           Sign In
         </Button>
@@ -35,15 +30,8 @@ function Welcome(props) {
   );
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth
-});
-
-const mapDispatchToProps = {
-  signInWithGoogleAsync
+Welcome.propTypes = {
+  handleSignIn: PropTypes.func.isRequired
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Welcome);
+export default Welcome;
