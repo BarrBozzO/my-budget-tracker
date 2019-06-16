@@ -9,4 +9,20 @@
   background: url("../../assets/svg/user-avatar.svg") no-repeat center;
   background-size: 80%;
   overflow: hidden;
+  order: 2;
+}
+
+.header__button-container {
+  display: block;
+  order: 1;
+
+  & .header__button {
+    color: $theme-dark-gray;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      color: $theme-blue;
+    }
+  }
 }
