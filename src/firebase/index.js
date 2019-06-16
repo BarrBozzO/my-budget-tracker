@@ -3,6 +3,7 @@ import "firebase/auth";
 import "firebase/firestore";
 
 import firebaseConfig from "./config";
+import { normalizeUserData } from "../utils/normalize";
 
 class Firebase {
   constructor() {
@@ -20,7 +21,8 @@ class Firebase {
     return this.auth
       .signInWithPopup(this.googleAuthProvider)
       .then(result => {
-        return { user: result.user };
+        const normalizedUser = normalizeUserData(result.user);
+        return { user: normalizedUser };
       })
       .catch(error => {
         return { error: error };
@@ -28,7 +30,10 @@ class Firebase {
   }
 
   getAuthStateListener(fn) {
-    return this.auth.onAuthStateChanged(fn);
+    return this.auth.onAuthStateChanged(user => {
+      const normalizedUser = user ? normalizeUserData(user) : null;
+      fn(normalizedUser);
+    });
   }
 
   signOut() {
