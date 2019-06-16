@@ -12,30 +12,34 @@ class Firebase {
     this.googleAuthProvider = new app.auth.GoogleAuthProvider();
 
     this.signInWithGoogle = this.signInWithGoogle.bind(this);
-    this.setUserAccessToken = this.setUserAccessToken.bind(this);
-    this.setUser = this.setUser.bind(this);
+    this.getAuthStateListener = this.getAuthStateListener.bind(this);
+    this.signOut = this.signOut.bind(this);
   }
 
   signInWithGoogle() {
-    return app
-      .auth()
+    return this.auth
       .signInWithPopup(this.googleAuthProvider)
       .then(result => {
-        this.setUserAccessToken(result.credential.accessToken);
-        this.setUser(result.user);
-        return { user: this.user, error: null };
+        return { user: result.user };
       })
       .catch(error => {
         return { error: error };
       });
   }
 
-  setUser(user) {
-    this.user = user;
+  getAuthStateListener(fn) {
+    return this.auth.onAuthStateChanged(fn);
   }
 
-  setUserAccessToken(accessToken) {
-    this.accessToken = accessToken;
+  signOut() {
+    return this.auth
+      .signOut()
+      .then(() => {
+        return { error: null };
+      })
+      .catch(error => {
+        return { error };
+      });
   }
 }
 
