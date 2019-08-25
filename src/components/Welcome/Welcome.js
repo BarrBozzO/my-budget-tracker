@@ -1,10 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 import classNames from "classnames";
 import { Button } from "react-bootstrap";
 
 import styles from "./Welcome.module.scss";
 
-function Welcome() {
+function Welcome(props) {
   return (
     <div
       className={classNames(styles.welcome, "container-fluid", "text-center")}
@@ -15,15 +16,22 @@ function Welcome() {
         finances.
       </span>
       <div className={"m-3"}>
-        <Button className={classNames(styles.welcome__button, "mx-2")}>
+        <Button
+          className={classNames(styles.welcome__button, "mx-2")}
+          onClick={() => props.handleSignIn()}
+        >
           Sign In
         </Button>
-        <Button className={classNames(styles.welcome__button, "mx-2")}>
+        {/* <Button className={classNames(styles.welcome__button, "mx-2")}>
           Sign Up
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
 }
+
+Welcome.propTypes = {
+  handleSignIn: PropTypes.func.isRequired
+};
 
 export default Welcome;

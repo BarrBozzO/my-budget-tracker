@@ -1,13 +1,13 @@
 import React from "react";
 
 import Sidebar from "../Sidebar/Sidebar";
-import Content from "../Content/Content";
+import ContentContainer from "../Content/ContentContainer";
 
 function Dashboard() {
   return (
     <div className="d-flex d-flex-row">
       <Sidebar />
-      <Content />
+      <ContentContainer />
     </div>
   );
 }
