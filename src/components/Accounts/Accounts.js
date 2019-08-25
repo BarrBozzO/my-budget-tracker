@@ -1,9 +1,13 @@
 import React from "react";
 import classNames from "classnames";
+import PropTypes from "prop-types";
 
 import styles from "./Accounts.module.scss";
 
-function Accounts() {
+function Accounts(props) {
+  const { handleGetAccount } = props;
+  handleGetAccount("w2qzmi0XttTJW2kw90");
+
   return (
     <div className={classNames("container-fluid", styles.accounts)}>
       <div className="row">
@@ -17,5 +21,9 @@ function Accounts() {
     </div>
   );
 }
+
+Accounts.propTypes = {
+  handleGetAccount: PropTypes.func.isRequired
+};
 
 export default Accounts;

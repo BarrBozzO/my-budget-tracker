@@ -10,11 +10,21 @@ class Firebase {
     app.initializeApp(firebaseConfig);
 
     this.auth = app.auth();
+    this.db = app.firestore();
+
     this.googleAuthProvider = new app.auth.GoogleAuthProvider();
 
+    // Auth
     this.signInWithGoogle = this.signInWithGoogle.bind(this);
     this.getAuthStateListener = this.getAuthStateListener.bind(this);
     this.signOut = this.signOut.bind(this);
+
+    // Accounts
+    this.addAccount = this.addAccount.bind(this);
+    this.getAccount = this.getAccount.bind(this);
+    this.getAccountsListener = this.getAccountsListener.bind(this);
+
+    this._getDocumentsListener = this._getDocumentsListener.bind(this);
   }
 
   signInWithGoogle() {
@@ -45,6 +55,46 @@ class Firebase {
       .catch(error => {
         return { error };
       });
+  }
+
+  // ACCOUNTS
+
+  addAccount(account) {
+    return this.db
+      .collection("accounts")
+      .add(account)
+      .then(accountRef => {
+        return accountRef.id;
+      })
+      .catch(err => err);
+  }
+
+  getAccount(id) {
+    var accountRef = this.db.collection("accounts").doc(id);
+
+    return accountRef
+      .get()
+      .then(function(account) {
+        if (account.exists) return { account: account.data() };
+        else throw new Error("Account doesn't exist");
+      })
+      .catch(function(error) {
+        return { error };
+      });
+  }
+
+  getAccountsListener(fn) {
+    var query = this.db.collection("accounts").limit(50);
+
+    return this._getDocumentsListener(query, fn);
+  }
+
+  _getDocumentsListener(query, fn) {
+    return query.onSnapshot(function(snapshot) {
+      if (!snapshot.size) fn([]);
+
+      fn(snapshot.docChanges());
+    });
   }
 }
 

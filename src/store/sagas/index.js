@@ -5,11 +5,15 @@ import {
   watchAuthStateChange,
   watchSignOut
 } from "./auth";
+import { watchAccountsChanged } from "./accounts";
+import { watchFetchAccountAsync } from "./account";
 
 export default function* rootSaga() {
   yield all([
+    watchAccountsChanged(),
     watchSignInWithGoogleAsync(),
     watchAuthStateChange(),
-    watchSignOut()
+    watchSignOut(),
+    watchFetchAccountAsync()
   ]);
 }

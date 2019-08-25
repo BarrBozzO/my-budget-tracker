@@ -16,19 +16,34 @@ function Content(props) {
     },
     {
       path: "/dashboard/accounts",
-      component: Accounts
+      component: Accounts,
+      render: routerProps => (
+        <Accounts {...routerProps} handleGetAccount={props.handleGetAccount} />
+      )
     },
     {
       path: "/dashboard/budgets",
-      component: () => <p>Not available. Coming soon!</p>
+      render: props => (
+        <div {...props}>
+          <p>Not available. Coming soon!</p>
+        </div>
+      )
     },
     {
       path: "/dashboard/bills",
-      component: () => <p>Not available. Coming soon!</p>
+      render: props => (
+        <div {...props}>
+          <p>Not available. Coming soon!</p>
+        </div>
+      )
     },
     {
       path: "",
-      component: () => <p>not found!</p>
+      render: props => (
+        <div {...props}>
+          <p>NOT FOUND</p>
+        </div>
+      )
     }
   ];
 
@@ -42,7 +57,7 @@ function Content(props) {
               key={index}
               path={route.path}
               exact={route.exact}
-              component={route.component}
+              render={route.render}
             />
           ))}
         </Switch>
@@ -52,7 +67,8 @@ function Content(props) {
 }
 
 Content.propTypes = {
-  handleSignOut: PropTypes.func.isRequired
+  handleSignOut: PropTypes.func.isRequired,
+  handleGetAccount: PropTypes.func.isRequired
 };
 
 export default Content;
