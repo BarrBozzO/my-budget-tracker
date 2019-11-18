@@ -5,7 +5,7 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  account: null,
+  data: null,
   error: null,
   loading: true
 };
@@ -15,7 +15,7 @@ const accountReducer = function(state = initialState, action) {
     case ACCOUNT_FETCH_DONE:
       return {
         error: null,
-        account: action.payload.account,
+        data: action.payload.account,
         loading: false
       };
     case ACCOUNT_FETCH_PENDING:
@@ -25,7 +25,7 @@ const accountReducer = function(state = initialState, action) {
       };
     case ACCOUNT_FETCH_ERROR:
       return {
-        account: null,
+        data: null,
         error: action.payload.error,
         loading: false
       };

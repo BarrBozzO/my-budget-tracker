@@ -29,7 +29,6 @@ function* watchAccounts() {
     while (true) {
       const { accounts } = yield take(accountsChannel);
       if (Array.isArray(accounts)) {
-        debugger;
         yield put({ type: ACCOUNTS_WATCH_UPDATE, payload: { accounts } });
       } else {
         yield put({ type: ACCOUNTS_WATCH_ERROR });

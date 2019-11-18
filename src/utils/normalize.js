@@ -21,7 +21,8 @@ export const normalizeAccountData = account => {
     currencyId: account.currency_id,
     name: account.name,
     statusId: account.status_id,
-    description: account.description
+    description: account.description,
+    value: account.value
   };
 };
 

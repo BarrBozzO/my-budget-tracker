@@ -96,8 +96,14 @@ class Firebase {
     return accountRef
       .get()
       .then(function(account) {
-        if (account.exists) return { account: account.data() };
-        else throw new Error("Account doesn't exist");
+        if (account.exists) {
+          return {
+            account: {
+              id: account.id,
+              ...normalizeAccountData(account.data())
+            }
+          };
+        } else throw new Error("Account doesn't exist");
       })
       .catch(function(error) {
         return { error };
