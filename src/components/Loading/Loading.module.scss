@@ -1,0 +1,14 @@
+@import "../../assets/scss/variables";
+@import "../../assets/scss/mixins";
+
+.loading {
+  &__screen {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  &__bar {
+    color: $theme-black;
+    text-transform: uppercase;
+  }
+}
