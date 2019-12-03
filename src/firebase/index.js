@@ -163,6 +163,74 @@ class Firebase {
       });
   }
 
+  get({ collectionName, documentId, normalizeFn } = {}) {
+    let ref = this.db.collection(collectionName);
+
+    if (documentId) ref = ref.doc(documentId);
+
+    return ref
+      .get()
+      .then(function(data) {
+        if (!Array.isArray(data.docs))
+          throw new Error(`Error occured during ${collectionName} data fetch`);
+
+        const normalizedData = data.docs.map(function(doc) {
+          return {
+            id: doc.id,
+            ...(typeof normalizeFn === "function"
+              ? normalizeFn(doc.data())
+              : doc.data())
+          };
+        });
+        return { data: normalizedData };
+      })
+      .catch(function(error) {
+        return { error };
+      });
+  }
+
+  remove({ collectionName, documentId } = {}) {
+    var ref = this.db.collection(collectionName).doc(documentId);
+
+    return ref
+      .delete()
+      .then(function() {
+        return {
+          id: documentId
+        };
+      })
+      .catch(function(error) {
+        return { error };
+      });
+  }
+
+  update({ collectionName, documentId, data } = {}) {
+    const ref = this.db.collection(collectionName).doc(documentId);
+
+    return ref
+      .update({ ...data })
+      .then(documentRef => {
+        return { id: documentRef.id };
+      })
+      .catch(error => ({
+        error
+      }));
+  }
+
+  add({ collectionName, data } = {}) {
+    const { currentUser } = this.auth;
+    const ref = this.db.collection(collectionName);
+
+    return ref
+      .add({ user_id: currentUser.uid, ...data })
+      .then(documentRef => {
+        return { id: documentRef.id };
+      })
+      .catch(error => ({
+        error
+      }));
+  }
+
   getAccountsListener(fn) {
     const { currentUser } = this.auth;
 
