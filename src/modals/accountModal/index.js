@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Formik, ErrorMessage } from "formik";
 import { Modal, Button, Form } from "react-bootstrap";
-import { addAccount, updateAccount } from "../../store/actions/account";
+import { addAccount, updateAccount } from "store/actions/account";
 
 function accountModal({
   data,

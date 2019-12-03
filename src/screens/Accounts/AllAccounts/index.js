@@ -13,7 +13,7 @@ import Card from "./AccountCard";
 
 import styles from "./Accounts.module.scss";
 
-function Accounts(props) {
+function AllAccounts(props) {
   const {
     accounts,
     startAccountsWatch,
@@ -42,7 +42,7 @@ function Accounts(props) {
     return stopAccountsWatch;
   }, []);
 
-  if (loading) return "lodasing";
+  if (loading) return "loading";
 
   return (
     <div className={classNames("container-fluid", styles.accounts)}>
@@ -60,6 +60,7 @@ function Accounts(props) {
         {accounts.data &&
           accounts.data.map(account => (
             <Card
+              key={account.id}
               data={account}
               statuses={statuses.data}
               currencies={currencies.data}
@@ -71,7 +72,7 @@ function Accounts(props) {
   );
 }
 
-Accounts.propTypes = {
+AllAccounts.propTypes = {
   handleGetAccount: PropTypes.func.isRequired
 };
 
@@ -88,4 +89,4 @@ const mapDispatchProps = {
   openModal
 };
 
-export default connect(mapStateToProps, mapDispatchProps)(Accounts);
+export default connect(mapStateToProps, mapDispatchProps)(AllAccounts);

@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
-import { signInWithGoogleAsync } from "../../store/actions/auth";
+import { signInWithGoogleAsync } from "store/actions/auth";
 import Welcome from "./Welcome";
 
 function WelcomeContainer(props) {
@@ -23,7 +23,4 @@ const mapDispatchToProps = {
   signInWithGoogleAsync
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WelcomeContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(WelcomeContainer);

@@ -3,16 +3,16 @@ import { connect } from "react-redux";
 import classNames from "classnames";
 import { Route, Switch } from "react-router-dom";
 
-import { signOut } from "../../store/actions/auth";
-import { getAccount } from "../../store/actions/account";
-import { getCurrencies } from "../../store/actions/currencies";
-import { getStatuses } from "../../store/actions/statuses";
+import { signOut } from "store/actions/auth";
+import { getAccount } from "store/actions/account";
+import { getCurrencies } from "store/actions/currencies";
+import { getStatuses } from "store/actions/statuses";
 
-import Header from "../../components/Header/Header";
-import Home from "../../components/Home/Home";
+import Header from "components/Header/Header";
+import Home from "components/Home/Home";
 import Accounts from "../Accounts";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import ModalsLayout from "../../modals";
+import Sidebar from "components/Sidebar/Sidebar";
+import ModalsLayout from "modals";
 
 function Dashboard(props) {
   useEffect(() => {
@@ -93,7 +93,4 @@ const mapDispatchToProps = {
   getStatuses
 };
 
-export default connect(
-  mapStateTopProps,
-  mapDispatchToProps
-)(Dashboard);
+export default connect(mapStateTopProps, mapDispatchToProps)(Dashboard);

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { closeModal } from "../store/actions/modal";
+import { closeModal } from "store/actions/modal";
 
 import ModalWrapper from "./ModalWrapper";
 
@@ -36,7 +36,4 @@ const mapDispatchToProps = {
   closeModal
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ModalsLayout);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalsLayout);
