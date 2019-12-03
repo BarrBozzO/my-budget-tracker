@@ -11,7 +11,7 @@ import {
 } from "../actions/types";
 import Firebase from "../../firebase";
 
-function authStateChanged() {
+function createAuthChannel() {
   return eventChannel(emitter => {
     const unsubscribe = Firebase.getAuthStateListener(user => {
       if (user) {
@@ -26,7 +26,7 @@ function authStateChanged() {
 }
 
 export function* watchAuthStateChange() {
-  const authStateChannel = yield call(authStateChanged);
+  const authStateChannel = yield call(createAuthChannel);
   try {
     while (true) {
       const { user } = yield take(authStateChannel);

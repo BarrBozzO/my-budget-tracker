@@ -18,8 +18,18 @@ export const normalizeUserData = user => {
  */
 export const normalizeAccountData = account => {
   return {
-    name: account.displayName,
-    email: account.email,
-    avatar: account.photoURL
+    currencyId: account.currency_id,
+    name: account.name,
+    statusId: account.status_id,
+    description: account.description
   };
+};
+
+/**
+ * Normalizes Accounts Data
+ * @param {Array} account
+ * @returns {Array}
+ */
+export const normalizeAccountsData = accounts => {
+  return accounts.map(account => normalizeAccountData(account));
 };

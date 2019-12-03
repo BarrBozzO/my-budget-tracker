@@ -1,15 +1,32 @@
-import { ACCOUNTS_FETCH_DONE } from "../actions/types";
+import { ACCOUNTS_WATCH_UPDATE, ACCOUNTS_WATCH_ERROR } from "../actions/types";
 
 const initialState = {
-  accounts: [],
+  data: [],
   loading: true
 };
 
 const accountsReducer = function(state = initialState, action) {
   switch (action.type) {
-    case ACCOUNTS_FETCH_DONE:
+    case ACCOUNTS_WATCH_UPDATE: {
+      const nextData = [
+        ...state.data.filter(
+          account =>
+            !action.payload.accounts.find(
+              updatedAccout => account.id === updatedAccout.id
+            )
+        ),
+        ...action.payload.accounts
+      ];
+
       return {
-        accounts: action.payload.accounts,
+        data: nextData,
+        loading: false
+      };
+    }
+    case ACCOUNTS_WATCH_ERROR:
+      return {
+        data: [],
+        error: action.payload.error,
         loading: false
       };
     default:

@@ -1,0 +1,16 @@
+@import "~assets/scss/variables";
+@import "~assets/scss/mixins";
+
+.account__container {
+  @include content-card;
+
+  &-title {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  &-content {
+    padding-top: 20px;
+  }
+}

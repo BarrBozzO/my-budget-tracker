@@ -1,16 +1,15 @@
 import { eventChannel } from "redux-saga";
-import { put, takeLeading, call, take } from "redux-saga/effects";
+import { put, call, take, cancel, fork } from "redux-saga/effects";
 
 import {
-  ACCOUNTS_ADD_DONE,
-  ACCOUNTS_ADD_ERROR,
-  ACCOUNTS_ADD_START,
-  ACCOUNTS_FETCH_DONE,
-  ACCOUNTS_FETCH_ERROR
+  ACCOUNTS_WATCH_UPDATE,
+  ACCOUNTS_WATCH_ERROR,
+  ACCOUNTS_WATCH_START,
+  ACCOUNTS_WATCH_STOP
 } from "../actions/types";
 import Firebase from "../../firebase";
 
-function accountsChanged() {
+function createAccountsChannel() {
   return eventChannel(emitter => {
     const unsubscribe = Firebase.getAccountsListener(changedAccounts => {
       if (changedAccounts) {
@@ -24,32 +23,29 @@ function accountsChanged() {
   });
 }
 
-export function* watchAccountsChanged() {
-  const accountsChangedChannel = yield call(accountsChanged);
+function* watchAccounts() {
+  const accountsChannel = yield call(createAccountsChannel);
   try {
     while (true) {
-      const { accounts } = yield take(accountsChangedChannel);
+      const { accounts } = yield take(accountsChannel);
       if (Array.isArray(accounts)) {
-        yield put({ type: ACCOUNTS_FETCH_DONE, payload: { accounts } });
+        debugger;
+        yield put({ type: ACCOUNTS_WATCH_UPDATE, payload: { accounts } });
       } else {
-        yield put({ type: ACCOUNTS_FETCH_ERROR });
+        yield put({ type: ACCOUNTS_WATCH_ERROR });
       }
     }
   } finally {
-    // AuthStateObserver shouldn't terminate
+    accountsChannel.close();
   }
 }
 
-function* AddAccountAsync() {
-  let response = yield call(Firebase.addAccount, { name: "test" });
+export function* main() {
+  while (yield take(ACCOUNTS_WATCH_START)) {
+    const accountsSync = yield fork(watchAccounts);
 
-  if (response.account) {
-    yield put({ type: ACCOUNTS_ADD_DONE });
-  } else {
-    yield put({ type: ACCOUNTS_ADD_ERROR });
+    yield take(ACCOUNTS_WATCH_STOP);
+
+    yield cancel(accountsSync);
   }
-}
-
-export function* watchAddAccountAsync() {
-  yield takeLeading(ACCOUNTS_ADD_START, AddAccountAsync);
 }
