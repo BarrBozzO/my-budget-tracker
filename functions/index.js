@@ -45,15 +45,15 @@ exports.conductTransaction = functions.https.onCall((data, context) => {
 
   const accountRef = db.collection("accounts").doc(account_id);
 
-  return accountRef.get().then(function(_account) {
+  return accountRef.get().then(_account => {
     const currentData = _account.data();
 
-    if (_account.exists && currentData.user_id === context.auth.id) {
+    if (_account.exists && currentData.user_id === context.auth.uid) {
       const currValue = parseFloat(currentData.value || 0);
       const inputValue = parseFloat(value);
 
       if (type === "credit") {
-        return accountRef.set({ value: currValue + inputValue }).then(() => {
+        return accountRef.update({ value: currValue + inputValue }).then(() => {
           return {
             data: {
               message: "successfully created",
@@ -69,7 +69,7 @@ exports.conductTransaction = functions.https.onCall((data, context) => {
           );
         }
 
-        return accountRef.set({ value: currValue - inputValue }).then(() => {
+        return accountRef.update({ value: currValue - inputValue }).then(() => {
           return {
             data: {
               message: "successfully created",
