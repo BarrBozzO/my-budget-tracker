@@ -3,12 +3,9 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import {
-  startAccountsWatch,
-  stopAccountsWatch
-} from "../../../store/actions/accounts";
+import { startAccountsWatch, stopAccountsWatch } from "store/actions/accounts";
 
-import { openModal } from "../../../store/actions/modal";
+import { openModal } from "store/actions/modal";
 
 import StatsBar from "./AccountsStatsBar";
 import ControlsBar from "./AccountsControlsBar";

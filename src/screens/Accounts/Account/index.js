@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import classNames from "classnames";
 
-import { getAccount } from "../../../store/actions/account";
+import { getAccount } from "store/actions/account";
 
 import styles from "./Account.module.scss";
 

@@ -2,10 +2,10 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
-import PrivateRoute from "../../components/Common/PrivateRoute";
+import PrivateRoute from "components/Common/PrivateRoute";
 import Dashboard from "../Dashboard";
-import WelcomeContainer from "../../components/Welcome/WelcomeContainer";
-import { LoadingBar, LoadingScreen } from "../../components/Loading";
+import WelcomeContainer from "components/Welcome/WelcomeContainer";
+import { LoadingBar, LoadingScreen } from "components/Loading";
 
 function App(props) {
   const { isAuthenticated, loading } = props.auth;
