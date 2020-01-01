@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import classNames from "classnames";
+import cx from "classnames";
+import Transactions from "./AccountTransactions";
 
 import { getAccount } from "store/actions/account";
 
@@ -19,19 +20,45 @@ function Account({ data, currencies, statuses, loading, match, getAccount }) {
   const status = statuses.find(status => status.id === statusId) || {};
 
   return (
-    <div
-      className={classNames("container-fluid", styles["account__container"])}
-    >
-      <div className={styles["account__container-title"]}>{name}</div>
+    <div className={cx("container-fluid", styles["account__container"])}>
       <div className="row">
-        <div className="col-lg-6 col-md-6 col-sm-6">
-          <div>{description}</div>
-        </div>
-        <div className="col-lg-6 col-md-6 col-sm-6">
-          <div>{`${value}${currency.name}`}</div>
-          <div>{status.value}</div>
+        <div className={cx("col-lg-6", "col-md-6", "col-sm-6")}>
+          <div className={cx(styles["account__container-card"])}>
+            <div
+              className={cx(
+                styles["account__container-title"],
+                styles["account__container-row"]
+              )}
+            >
+              {name}
+            </div>
+            <div className={styles["account__container-row"]}>
+              <span className={styles["account__container-value"]}>
+                {value}
+              </span>
+              <span className={styles["account__container-currency"]}>
+                {currency.isoCode}
+              </span>
+            </div>
+            <div classame={styles["account__container-row"]}>
+              <span className={styles["account__container-status"]}>
+                {status.value}
+              </span>
+            </div>
+            {false && (
+              <div
+                className={cx(
+                  styles["account__container-description"],
+                  styles["account__container-row"]
+                )}
+              >
+                {description}
+              </div>
+            )}
+          </div>
         </div>
       </div>
+      <Transactions />
     </div>
   );
 }
