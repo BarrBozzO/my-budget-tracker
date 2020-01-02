@@ -1,9 +1,14 @@
 import app from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/functions";
 
 import firebaseConfig from "./config";
-import { normalizeUserData, normalizeAccountData } from "../utils/normalize";
+import {
+  normalizeUserData,
+  normalizeAccountData,
+  normalizeTransactionData
+} from "../utils/normalize";
 
 class Firebase {
   constructor() {
@@ -11,6 +16,7 @@ class Firebase {
 
     this.auth = app.auth();
     this.db = app.firestore();
+    this.functions = app.functions();
 
     this.googleAuthProvider = new app.auth.GoogleAuthProvider();
 
@@ -29,6 +35,10 @@ class Firebase {
 
     this._getDocumentsListener = this._getDocumentsListener.bind(this);
     this._getMetaData = this._getMetaData.bind(this);
+
+    this.creditTransaction = this.creditTransaction.bind(this);
+    this.debitTransaction = this.debitTransaction.bind(this);
+    this._conductTransaction = this._conductTransaction.bind(this);
   }
 
   signInWithGoogle() {
@@ -174,6 +184,63 @@ class Firebase {
       .limit(50);
 
     return this._getDocumentsListener(query, fn, normalizeAccountData);
+  }
+
+  // Transaction
+
+  getTransactions() {
+    const collection = this.db.collection("transactions");
+
+    return collection
+      .get()
+      .then(function(data) {
+        if (!Array.isArray(data.docs))
+          throw new Error("There was error during transactions fetch!");
+
+        const normalizedData = data.docs.map(function(doc) {
+          return {
+            id: doc.id,
+            ...normalizeTransactionData(doc.data())
+          };
+        });
+        return { data: normalizedData };
+      })
+      .catch(function(error) {
+        return { error };
+      });
+  }
+
+  creditTransaction({ value, accountId }) {
+    return this._conductTransaction({
+      type: "credit",
+      value,
+      account_id: accountId
+    });
+  }
+
+  debitTransaction({ value, accountId }) {
+    return this._conductTransaction({
+      type: "debit",
+      value,
+      account_id: accountId
+    });
+  }
+
+  _conductTransaction({ type, value, account_id }) {
+    const conductTransaction = this.functions.httpsCallable(
+      "conductTransaction"
+    );
+    return conductTransaction({ type, value, account_id })
+      .then(() => {
+        return true;
+      })
+      .catch(({ message }) => {
+        return {
+          error: {
+            message
+          }
+        };
+      });
   }
 
   /**

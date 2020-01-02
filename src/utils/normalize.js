@@ -27,9 +27,23 @@ export const normalizeAccountData = account => {
 
 /**
  * Normalizes Accounts Data
- * @param {Array} account
+ * @param {Array} accounts
  * @returns {Array}
  */
 export const normalizeAccountsData = accounts => {
   return accounts.map(account => normalizeAccountData(account));
+};
+
+/**
+ * Normalizes Transaction Data
+ * @param {Object} transaction
+ * @returns {Object}
+ */
+export const normalizeTransactionData = transaction => {
+  return {
+    accountId: transaction.account_id,
+    name: transaction.name,
+    value: transaction.value,
+    description: transaction.description
+  };
 };
