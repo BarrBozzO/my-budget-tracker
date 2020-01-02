@@ -10,7 +10,7 @@ const initialState = {
   loading: true
 };
 
-const accountReducer = function(state = initialState, action) {
+const statusesReducer = function(state = initialState, action) {
   switch (action.type) {
     case STATUSES_FETCH_DONE:
       return {
@@ -34,4 +34,4 @@ const accountReducer = function(state = initialState, action) {
   }
 };
 
-export default accountReducer;
+export default statusesReducer;
