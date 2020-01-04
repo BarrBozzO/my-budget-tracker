@@ -5,7 +5,7 @@ import { Formik, ErrorMessage } from "formik";
 import { Modal, Button, Form } from "react-bootstrap";
 import { addAccount, updateAccount } from "store/actions/account";
 
-function accountModal({
+function AccountModal({
   data,
   handleClose,
   currencies,
@@ -125,13 +125,13 @@ function accountModal({
   );
 }
 
-accountModal.propTypes = {
+AccountModal.propTypes = {
   data: PropTypes.object,
   currencies: PropTypes.array.isRequired,
   statuses: PropTypes.array.isRequired
 };
 
-accountModal.defaultProps = {
+AccountModal.defaultProps = {
   data: {},
   currencies: [],
   statuses: []
@@ -147,4 +147,4 @@ const mapDispatchToProps = {
   updateAccount
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(accountModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AccountModal);
