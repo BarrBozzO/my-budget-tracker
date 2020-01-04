@@ -6,9 +6,11 @@ import { closeModal } from "store/actions/modal";
 import ModalWrapper from "./ModalWrapper";
 
 import accountModal from "./accountModal";
+import transactionModal from "./transactionModal";
 
 const modalContents = {
-  accountModal
+  accountModal,
+  transactionModal
 };
 
 function ModalsLayout({ modal = {}, closeModal }) {

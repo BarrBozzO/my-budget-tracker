@@ -44,10 +44,18 @@
 }
 
 .account__transactions {
+  margin-top: 16px;
+
   &-header {
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &-text {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
   }
 
   &-content {

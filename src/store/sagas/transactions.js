@@ -44,9 +44,11 @@ function* debitStart(action) {
   }
 }
 
-function* fetchTransactions() {
+function* fetchTransactions(action) {
   yield put({ type: TRANSACTIONS_FETCH_PENDING });
-  let response = yield call(Firebase.getTransactions);
+  let response = yield call(Firebase.getTransactions, {
+    accountId: action.payload.accountId
+  });
 
   if (response.error) {
     yield put({ type: TRANSACTIONS_FETCH_ERROR, error: response.error });
@@ -72,6 +74,6 @@ export function* watchTransactionsFetch() {
 
 export default [
   watchCreditStart(),
-  watchCreditStart(),
+  watchDebitStart(),
   watchTransactionsFetch()
 ];

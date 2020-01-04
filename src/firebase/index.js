@@ -38,6 +38,7 @@ class Firebase {
 
     this.creditTransaction = this.creditTransaction.bind(this);
     this.debitTransaction = this.debitTransaction.bind(this);
+    this.getTransactions = this.getTransactions.bind(this);
     this._conductTransaction = this._conductTransaction.bind(this);
   }
 
@@ -194,10 +195,11 @@ class Firebase {
 
   // Transaction
 
-  getTransactions() {
+  getTransactions({ accountId }) {
     const collection = this.db.collection("transactions");
 
     return collection
+      .where("account_id", "==", accountId)
       .get()
       .then(function(data) {
         if (!Array.isArray(data.docs))

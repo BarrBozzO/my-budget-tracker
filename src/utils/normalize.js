@@ -45,6 +45,7 @@ export const normalizeTransactionData = transaction => {
     accountId: transaction.account_id,
     name: transaction.name,
     value: transaction.value,
-    description: transaction.description
+    description: transaction.description,
+    date: transaction.date && transaction.date.seconds * 1000
   };
 };
