@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import cx from "classnames";
 import Transactions from "./AccountTransactions";
+import Tooltip from "components/Tooltip";
+import { Button } from "react-bootstrap";
+import threeDotsMenu from "assets/svg/three-dots-menu.svg";
 
 import { getAccount } from "store/actions/account";
 import { getTransactions } from "store/actions/transactions";
@@ -41,6 +44,14 @@ function Account({
     });
   };
 
+  const handleEditAccount = () => {
+    return openModal("accountModal", {
+      title: "Edit Account",
+      edit: true,
+      account: data
+    });
+  };
+
   return (
     <div className={cx("container-fluid", styles["account__container"])}>
       <div className="row">
@@ -53,6 +64,27 @@ function Account({
               )}
             >
               {name}
+              <div className={styles["account__container-actions"]}>
+                <Tooltip.Trigger
+                  classNames={{
+                    trigger: styles["account__tooltip-trigger"],
+                    content: styles["account__tooltip-content"]
+                  }}
+                  render={() => (
+                    <div>
+                      <Button
+                        className={styles["account__tooltip-button"]}
+                        variant="link"
+                        onClick={() => handleEditAccount()}
+                      >
+                        Edit
+                      </Button>
+                    </div>
+                  )}
+                >
+                  <img src={threeDotsMenu} />
+                </Tooltip.Trigger>
+              </div>
             </div>
             <div className={styles["account__container-row"]}>
               <span className={styles["account__container-value"]}>

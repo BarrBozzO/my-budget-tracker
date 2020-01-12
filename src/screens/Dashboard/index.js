@@ -77,6 +77,7 @@ function Dashboard(props) {
           </Switch>
         </div>
       </div>
+      <div id="tooltips-layout"></div>
       <ModalsLayout />
     </div>
   );

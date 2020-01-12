@@ -1,0 +1,18 @@
+.custom-tooltip {
+  &__trigger {
+    cursor: pointer;
+  }
+
+  &__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    border: 0;
+    border-radius: 6px;
+    color: #272426;
+    background: #ffffff;
+    width: auto;
+    box-shadow: 0 1px 4px 0 rgba(39, 36, 38, 0.14);
+  }
+}
