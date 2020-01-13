@@ -25,7 +25,6 @@ function TransactionModal({
 
     setIsLoading(true);
     try {
-      debugger;
       await action({ ...values, accountId });
       handleClose();
     } catch (e) {

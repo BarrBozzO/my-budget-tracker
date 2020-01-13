@@ -27,6 +27,19 @@ export const normalizeAccountData = account => {
 };
 
 /**
+ * Prepare account data for firebase request
+ * @param {Object} data
+ */
+export const generateAccountPayload = data => {
+  return {
+    currency_id: data.currencyId,
+    status_id: data.statusId,
+    name: data.name,
+    description: data.description
+  };
+};
+
+/**
  * Normalizes Accounts Data
  * @param {Array} accounts
  * @returns {Array}
