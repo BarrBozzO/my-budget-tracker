@@ -27,7 +27,7 @@ exports.conductTransaction = functions.https.onCall((data, context) => {
     );
   }
 
-  const { account_id, value, type } = data;
+  const { account_id, value, type, name, description } = data;
 
   if (!TRANSACTION_TYPES.includes(type)) {
     throw new functions.https.HttpsError(
@@ -52,15 +52,10 @@ exports.conductTransaction = functions.https.onCall((data, context) => {
       const currValue = parseFloat(currentData.value || 0);
       const inputValue = parseFloat(value);
 
+      let nextValue;
+
       if (type === "credit") {
-        return accountRef.update({ value: currValue + inputValue }).then(() => {
-          return {
-            data: {
-              message: "successfully created",
-              status: "success"
-            }
-          };
-        });
+        nextValue = currValue + inputValue;
       } else {
         if (currValue < inputValue) {
           throw new functions.https.HttpsError(
@@ -69,7 +64,22 @@ exports.conductTransaction = functions.https.onCall((data, context) => {
           );
         }
 
-        return accountRef.update({ value: currValue - inputValue }).then(() => {
+        nextValue = currValue - inputValue;
+      }
+
+      return accountRef
+        .update({ value: nextValue })
+        .then(() => {
+          return db.collection("transactions").add({
+            account_id,
+            value: inputValue,
+            name,
+            description,
+            type,
+            date: admin.firestore.Timestamp.now()
+          });
+        })
+        .then(() => {
           return {
             data: {
               message: "successfully created",
@@ -77,7 +87,6 @@ exports.conductTransaction = functions.https.onCall((data, context) => {
             }
           };
         });
-      }
     } else {
       throw new functions.https.HttpsError(
         "invalid-argument",
