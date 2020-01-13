@@ -219,27 +219,31 @@ class Firebase {
       });
   }
 
-  creditTransaction({ value, accountId }) {
+  creditTransaction({ value, accountId, name, description }) {
     return this._conductTransaction({
       type: "credit",
+      name,
+      description,
       value,
       account_id: accountId
     });
   }
 
-  debitTransaction({ value, accountId }) {
+  debitTransaction({ value, accountId, name, description }) {
     return this._conductTransaction({
       type: "debit",
+      name,
+      description,
       value,
       account_id: accountId
     });
   }
 
-  _conductTransaction({ type, value, account_id }) {
+  _conductTransaction({ type, value, account_id, name, description }) {
     const conductTransaction = this.functions.httpsCallable(
       "conductTransaction"
     );
-    return conductTransaction({ type, value, account_id })
+    return conductTransaction({ type, value, account_id, name, description })
       .then(() => {
         return true;
       })
