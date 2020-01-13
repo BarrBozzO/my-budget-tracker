@@ -38,6 +38,7 @@ class Firebase {
 
     this.creditTransaction = this.creditTransaction.bind(this);
     this.debitTransaction = this.debitTransaction.bind(this);
+    this.getTransactions = this.getTransactions.bind(this);
     this._conductTransaction = this._conductTransaction.bind(this);
   }
 
@@ -106,8 +107,14 @@ class Firebase {
     return accountRef
       .get()
       .then(function(account) {
-        if (account.exists) return { account: account.data() };
-        else throw new Error("Account doesn't exist");
+        if (account.exists) {
+          return {
+            account: {
+              id: account.id,
+              ...normalizeAccountData(account.data())
+            }
+          };
+        } else throw new Error("Account doesn't exist");
       })
       .catch(function(error) {
         return { error };
@@ -188,10 +195,11 @@ class Firebase {
 
   // Transaction
 
-  getTransactions() {
+  getTransactions({ accountId }) {
     const collection = this.db.collection("transactions");
 
     return collection
+      .where("account_id", "==", accountId)
       .get()
       .then(function(data) {
         if (!Array.isArray(data.docs))

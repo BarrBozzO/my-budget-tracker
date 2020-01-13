@@ -21,7 +21,8 @@ export const normalizeAccountData = account => {
     currencyId: account.currency_id,
     name: account.name,
     statusId: account.status_id,
-    description: account.description
+    description: account.description,
+    value: account.value
   };
 };
 
@@ -44,6 +45,7 @@ export const normalizeTransactionData = transaction => {
     accountId: transaction.account_id,
     name: transaction.name,
     value: transaction.value,
-    description: transaction.description
+    description: transaction.description,
+    date: transaction.date && transaction.date.seconds * 1000
   };
 };

@@ -23,7 +23,7 @@ function AccountsStatsBar({ accounts, statuses }) {
   return (
     <div className={styles["accounts__stats"]}>
       {order.map(status => (
-        <div className={styles["accounts__stats-item"]}>
+        <div className={styles["accounts__stats-item"]} key={status}>
           <div className={styles["accounts__stats-item-label"]}>{status}</div>
           <div className={styles["accounts__stats-item-count"]}>
             {stats[status] || 0}
