@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Formik, ErrorMessage } from "formik";
 import { Modal, Button, Form } from "react-bootstrap";
 import { addAccount, updateAccount } from "store/actions/account";
+import { capitalize } from "utils";
 
 function AccountModal({
   data,
@@ -35,7 +36,7 @@ function AccountModal({
             <Form.Control
               type="text"
               name="name"
-              value={values.name}
+              defaultValue={values.name}
               onChange={handleChange}
             />
             <ErrorMessage name="name" component="div" />
@@ -45,7 +46,7 @@ function AccountModal({
             <Form.Control
               as="textarea"
               name="description"
-              value={values.description}
+              defaultValue={values.description}
               onChange={handleChange}
             />
             <ErrorMessage name="description" component="div" />
@@ -55,12 +56,14 @@ function AccountModal({
             <Form.Control
               as="select"
               name="currencyId"
-              value={values.currencyId}
+              defaultValue={values.currencyId}
               onChange={handleChange}
             >
-              <option value="">Select currency</option>
+              {!edit && <option value="">Select currency</option>}
               {currencies.map(currency => (
-                <option value={currency.id}>{currency.isoCode}</option>
+                <option key={currency.id} value={currency.id}>
+                  {currency.isoCode}
+                </option>
               ))}
             </Form.Control>
             <ErrorMessage name="currencyId" component="div" />
@@ -70,11 +73,14 @@ function AccountModal({
             <Form.Control
               as="select"
               name="statusId"
-              value={values.statusId}
+              defaultValue={values.statusId}
               onChange={handleChange}
             >
+              {!edit && <option value="">Select status</option>}
               {statuses.map(status => (
-                <option value={status.id}>{status.value}</option>
+                <option key={status.id} value={status.id}>
+                  {capitalize(status.value)}
+                </option>
               ))}
             </Form.Control>
             <ErrorMessage name="statusId" component="div" />

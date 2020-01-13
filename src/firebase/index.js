@@ -7,7 +7,8 @@ import firebaseConfig from "./config";
 import {
   normalizeUserData,
   normalizeAccountData,
-  normalizeTransactionData
+  normalizeTransactionData,
+  generateAccountPayload
 } from "../utils/normalize";
 
 class Firebase {
@@ -79,7 +80,7 @@ class Firebase {
 
     return this.db
       .collection("accounts")
-      .add({ user_id: currentUser.uid, ...account })
+      .add({ user_id: currentUser.uid, ...generateAccountPayload(account) })
       .then(accountRef => {
         return { id: accountRef.id };
       })
@@ -92,7 +93,7 @@ class Firebase {
     return this.db
       .collection("accounts")
       .doc(account.id)
-      .set({ ...account })
+      .set(generateAccountPayload(account), { merge: true })
       .then(accountRef => {
         return { id: accountRef.id };
       })
