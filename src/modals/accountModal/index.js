@@ -68,23 +68,24 @@ function AccountModal({
             </Form.Control>
             <ErrorMessage name="currencyId" component="div" />
           </Form.Row>
-          <Form.Row>
-            <Form.Label>Status</Form.Label>
-            <Form.Control
-              as="select"
-              name="statusId"
-              defaultValue={values.statusId}
-              onChange={handleChange}
-            >
-              {!edit && <option value="">Select status</option>}
-              {statuses.map(status => (
-                <option key={status.id} value={status.id}>
-                  {capitalize(status.value)}
-                </option>
-              ))}
-            </Form.Control>
-            <ErrorMessage name="statusId" component="div" />
-          </Form.Row>
+          {edit && (
+            <Form.Row>
+              <Form.Label>Status</Form.Label>
+              <Form.Control
+                as="select"
+                name="statusId"
+                defaultValue={values.statusId}
+                onChange={handleChange}
+              >
+                {statuses.map(status => (
+                  <option key={status.id} value={status.id}>
+                    {capitalize(status.value)}
+                  </option>
+                ))}
+              </Form.Control>
+              <ErrorMessage name="statusId" component="div" />
+            </Form.Row>
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

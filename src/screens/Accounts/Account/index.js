@@ -1,14 +1,17 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { compose } from "redux";
 import cx from "classnames";
-import Transactions from "./AccountTransactions";
+import Breadcrumbs from "components/Breadcrumbs";
 import Tooltip from "components/Tooltip";
+import Status from "components/Status";
+import Transactions from "./AccountTransactions";
 import { Button } from "react-bootstrap";
 import threeDotsMenu from "assets/svg/three-dots-menu.svg";
 
+import { withActions } from "actions";
 import { getAccount } from "store/actions/account";
 import { getTransactions } from "store/actions/transactions";
-import { openModal } from "store/actions/modal";
 
 import styles from "./Account.module.scss";
 
@@ -21,7 +24,7 @@ function Account({
   match,
   getAccount,
   getTransactions,
-  openModal
+  actions
 }) {
   const accountId = match.params.id;
 
@@ -38,22 +41,42 @@ function Account({
   const status = statuses.find(status => status.id === statusId) || {};
 
   const handleConductTransaction = () => {
-    return openModal("transactionModal", {
-      title: "Conduct Transaction",
-      accountId
-    });
+    return actions
+      .showModal("transactionModal", {
+        title: "Conduct Transaction",
+        accountId
+      })
+      .then(() => {
+        getAccount(accountId);
+        getTransactions(accountId);
+      });
   };
 
   const handleEditAccount = () => {
-    return openModal("accountModal", {
-      title: "Edit Account",
-      edit: true,
-      account: data
-    });
+    return actions
+      .showModal("accountModal", {
+        title: "Edit Account",
+        edit: true,
+        account: data
+      })
+      .then(() => {
+        getAccount(accountId);
+      });
   };
 
   return (
     <div className={cx("container-fluid", styles["account__container"])}>
+      <div className="row">
+        <div className={"col-sm-12"}>
+          <Breadcrumbs
+            path={[
+              { href: "/dashboard/accounts", label: "Accounts" },
+              { label: name }
+            ]}
+            className={styles["account__container-breadcrumbs"]}
+          />
+        </div>
+      </div>
       <div className="row">
         <div className={cx("col-lg-6", "col-md-6", "col-sm-6")}>
           <div className={cx(styles["account__container-card"])}>
@@ -95,9 +118,11 @@ function Account({
               </span>
             </div>
             <div classame={styles["account__container-row"]}>
-              <span className={styles["account__container-status"]}>
-                {status.value}
-              </span>
+              <Status
+                icon="049-add"
+                label={status.value}
+                className={styles["account__container-status"]}
+              />
             </div>
             {false && (
               <div
@@ -123,8 +148,7 @@ function Account({
 
 const mapDispatchToProps = {
   getAccount,
-  getTransactions,
-  openModal
+  getTransactions
 };
 
 const mapStateToProps = state => ({
@@ -135,4 +159,7 @@ const mapStateToProps = state => ({
   loading: state.account.loading
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Account);
+export default compose(
+  withActions,
+  connect(mapStateToProps, mapDispatchToProps)
+)(Account);

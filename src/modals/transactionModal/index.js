@@ -5,10 +5,7 @@ import { Formik, ErrorMessage } from "formik";
 import { Modal, Button, Form } from "react-bootstrap";
 import { transactionTypes as TRANSACTION_TYPES } from "../../constants";
 import { capitalize } from "utils";
-import {
-  transactionCredit,
-  transactionDebit
-} from "store/actions/transactions";
+import { transactionCredit, transactionDebit } from "store/actions/transaction";
 
 function TransactionModal({
   data,
@@ -17,19 +14,18 @@ function TransactionModal({
   transactionDebit
 }) {
   const { title, transaction, accountId } = data;
-  const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async values => {
+  const onSubmit = async (values, { setSubmitting }) => {
     const action =
       values.type === "credit" ? transactionCredit : transactionDebit;
 
-    setIsLoading(true);
+    setSubmitting(true);
     try {
-      await action({ ...values, accountId });
-      handleClose();
+      const response = await action({ ...values, accountId });
+      handleClose(response);
     } catch (e) {
       console.warn("shit, here we go again");
-      setIsLoading(false);
+      setSubmitting(false);
     }
   };
 
@@ -91,14 +87,14 @@ function TransactionModal({
           <Button
             variant="secondary"
             onClick={handleClose}
-            disabled={isLoading}
+            // disabled={isLoading}
           >
             Cancel
           </Button>
           <Button
             type="submit"
             variant="primary"
-            disabled={isSubmitting || isLoading}
+            // disabled={isSubmitting || isLoading}
           >
             Submit
           </Button>

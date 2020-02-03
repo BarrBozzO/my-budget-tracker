@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import styles from "./AccountCard.module.scss";
 
 function AccountCard({ data, statuses, currencies, history, location }) {
-  const { name, currencyId, statusId, value } = data;
+  const { name = "", currencyId, statusId, value = 0 } = data;
   const currency =
     currencies.find(currency => currency.id === currencyId) || {};
   const status = statuses.find(status => status.id === statusId) || {};

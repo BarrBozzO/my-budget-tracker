@@ -2,10 +2,11 @@ import React, { useEffect } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { compose } from "redux";
 
 import { startAccountsWatch, stopAccountsWatch } from "store/actions/accounts";
 
-import { openModal } from "store/actions/modal";
+import { withActions } from "actions";
 
 import StatsBar from "./AccountsStatsBar";
 import ControlsBar from "./AccountsControlsBar";
@@ -18,18 +19,18 @@ function AllAccounts(props) {
     accounts,
     startAccountsWatch,
     stopAccountsWatch,
-    openModal,
+    actions,
     currencies,
     statuses,
     loading
   } = props;
 
   const handleCreateAccount = () => {
-    return openModal("accountModal", { title: "Create Account" });
+    return actions.showModal("accountModal", { title: "Create Account" });
   };
 
   const handleEditAccount = account => {
-    return openModal("accountModal", {
+    return actions.showModal("accountModal", {
       title: "Edit Account",
       account,
       edit: true
@@ -72,10 +73,6 @@ function AllAccounts(props) {
   );
 }
 
-AllAccounts.propTypes = {
-  handleGetAccount: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => ({
   accounts: state.accounts,
   currencies: state.currencies,
@@ -85,8 +82,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchProps = {
   startAccountsWatch,
-  stopAccountsWatch,
-  openModal
+  stopAccountsWatch
 };
 
-export default connect(mapStateToProps, mapDispatchProps)(AllAccounts);
+export default compose(
+  withActions,
+  connect(mapStateToProps, mapDispatchProps)
+)(AllAccounts);
