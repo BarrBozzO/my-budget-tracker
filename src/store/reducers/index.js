@@ -7,12 +7,14 @@ import statusesReducer from "./statuses";
 import currenciesReducer from "./currencies";
 import modalReducer from "./modal";
 import transactionsReducer from "./transactions";
+import transactionReducer from "./transaction";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   account: accountReducer,
   accounts: accountsReducer,
   transactions: transactionsReducer,
+  transaction: transactionReducer,
   statuses: statusesReducer,
   currencies: currenciesReducer,
   modal: modalReducer

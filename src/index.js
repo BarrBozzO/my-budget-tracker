@@ -7,12 +7,15 @@ import "assets/scss/index.scss";
 import App from "./screens/App";
 import * as serviceWorker from "./serviceWorker";
 import store, { persistor } from "store/store";
+import { ActionsProvider } from "actions";
 
 ReactDOM.render(
   <Provider store={store}>
-    <PersistGate persistor={persistor} loading={null}>
-      <App />
-    </PersistGate>
+    <ActionsProvider store={store}>
+      <PersistGate persistor={persistor} loading={null}>
+        <App />
+      </PersistGate>
+    </ActionsProvider>
   </Provider>,
   document.getElementById("root")
 );

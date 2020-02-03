@@ -8,6 +8,7 @@ const modalReducer = function(state = initialState, action) {
   switch (action.type) {
     case MODAL_OPEN:
       return {
+        id: action.payload.id,
         name: action.payload.name,
         data: action.payload.data
       };
