@@ -94,9 +94,7 @@ class Firebase {
       .collection("accounts")
       .doc(account.id)
       .set(generateAccountPayload(account), { merge: true })
-      .then(accountRef => {
-        return { id: accountRef.id };
-      })
+      .then(() => ({ id: account.id }))
       .catch(error => ({
         error
       }));
@@ -260,8 +258,8 @@ class Firebase {
    *
    * @param {*} doc
    */
-  _getMetaData(doc) {
-    return { _pending: doc.metadata && doc.metadata.hasPendingWrites };
+  _getMetaData(doc, type) {
+    return { _pending: doc.metadata && doc.metadata.hasPendingWrites, type };
   }
 
   _getDocumentsListener(query, fn, normalize) {
@@ -274,7 +272,7 @@ class Firebase {
           typeof normalize === "function"
             ? normalize(change.doc.data())
             : change.doc.data();
-        const metadata = _this._getMetaData(change.doc.metadata);
+        const metadata = _this._getMetaData(change.doc.metadata, change.type);
 
         return {
           id: change.doc.id,

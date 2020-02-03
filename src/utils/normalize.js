@@ -31,12 +31,24 @@ export const normalizeAccountData = account => {
  * @param {Object} data
  */
 export const generateAccountPayload = data => {
-  return {
+  const payload = {
     currency_id: data.currencyId,
     status_id: data.statusId,
     name: data.name,
     description: data.description
   };
+
+  // rework + deescription should not be rerquired for account
+  for (const field in payload) {
+    if (
+      payload.hasOwnProperty(field) &&
+      typeof payload[field] === "undefined"
+    ) {
+      delete payload[field];
+    }
+  }
+
+  return payload;
 };
 
 /**
