@@ -24,6 +24,8 @@ const accountsReducer = function(state = initialState, action) {
           case "added":
             updatedOrAdded.push(account);
             break;
+          default:
+            break;
         }
       });
 

@@ -18,7 +18,7 @@ function AccountsStatsBar({ accounts, statuses }) {
       total: 0
     }
   );
-  const order = ["total", "active", "blocked", "closed", "archived"];
+  const order = ["total", "active", "blocked", "closed"];
 
   return (
     <div className={styles["accounts__stats"]}>

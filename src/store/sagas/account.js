@@ -1,4 +1,4 @@
-import { put, take, takeLatest, call } from "redux-saga/effects";
+import { put, takeLatest, call } from "redux-saga/effects";
 
 import {
   ACCOUNT_FETCH_START,
@@ -25,7 +25,7 @@ export function* watchFetchAccountAsync() {
 }
 
 function* addAccountAsync(action) {
-  const { id, error } = yield call(Firebase.addAccount, action.payload.account);
+  const { error } = yield call(Firebase.addAccount, action.payload.account);
 
   if (error) yield put({ type: ACCOUNTS_ADD_ERROR, error });
   else {
@@ -41,10 +41,7 @@ export function* watchAddAccountAsync() {
 }
 
 function* updateAccountAsync(action) {
-  const { id, error } = yield call(
-    Firebase.updateAccount,
-    action.payload.account
-  );
+  const { error } = yield call(Firebase.updateAccount, action.payload.account);
 
   if (error) yield put({ type: ACCOUNTS_UPDATE_ERROR, error });
   else
