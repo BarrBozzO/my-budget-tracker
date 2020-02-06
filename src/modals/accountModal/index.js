@@ -16,14 +16,16 @@ function AccountModal({
 }) {
   const { title, account, edit } = data;
 
-  const onSubmit = async (values, actions) => {
+  const onSubmit = async (values, { setSubmitting }) => {
     const action = edit ? updateAccount : addAccount;
 
+    setSubmitting(true);
     try {
       await action(values);
       handleClose();
     } catch (e) {
       console.warn("shit, here we go again");
+      setSubmitting(false);
     }
   };
 
