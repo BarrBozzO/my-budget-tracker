@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Formik, ErrorMessage } from "formik";
@@ -10,6 +10,7 @@ import { transactionCredit, transactionDebit } from "store/actions/transaction";
 function TransactionModal({
   data,
   handleClose,
+  handleLoading,
   transactionCredit,
   transactionDebit
 }) {
@@ -19,6 +20,7 @@ function TransactionModal({
     const action =
       values.type === "credit" ? transactionCredit : transactionDebit;
 
+    handleLoading(true);
     setSubmitting(true);
     try {
       const response = await action({ ...values, accountId });
@@ -27,6 +29,7 @@ function TransactionModal({
       console.warn("shit, here we go again");
       setSubmitting(false);
     }
+    handleLoading(false);
   };
 
   const renderForm = ({ isSubmitting, values, handleSubmit, handleChange }) => {
@@ -91,11 +94,7 @@ function TransactionModal({
           >
             Cancel
           </Button>
-          <Button
-            type="submit"
-            variant="primary"
-            // disabled={isSubmitting || isLoading}
-          >
+          <Button type="submit" variant="primary" disabled={isSubmitting}>
             Submit
           </Button>
         </Modal.Footer>
