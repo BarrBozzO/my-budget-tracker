@@ -9,6 +9,7 @@ import { capitalize } from "utils";
 function AccountModal({
   data,
   handleClose,
+  handleLoading,
   currencies,
   statuses,
   addAccount,
@@ -19,6 +20,7 @@ function AccountModal({
   const onSubmit = async (values, { setSubmitting }) => {
     const action = edit ? updateAccount : addAccount;
 
+    handleLoading(true);
     setSubmitting(true);
     try {
       await action(values);
@@ -27,6 +29,7 @@ function AccountModal({
       console.warn("shit, here we go again");
       setSubmitting(false);
     }
+    handleLoading(false);
   };
 
   const renderForm = ({ isSubmitting, values, handleSubmit, handleChange }) => {

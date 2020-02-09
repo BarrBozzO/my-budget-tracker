@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useRef } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { withActions } from "actions";
+import LoadingBar from "react-top-loading-bar";
 
 import ModalWrapper from "./ModalWrapper";
 
@@ -14,6 +15,8 @@ const modalContents = {
 };
 
 function ModalLayout({ modal = {}, actions }) {
+  let loadingRef = useRef(null);
+
   const renderModal = () => {
     const name = modal.name || "";
     const id = modal.id;
@@ -27,17 +30,35 @@ function ModalLayout({ modal = {}, actions }) {
       actions.rejectModal(id, error);
     };
 
+    const handleLoading = (loading = false) => {
+      if (!loadingRef.current) return;
+
+      return loading
+        ? loadingRef.current.continuousStart()
+        : loadingRef.current.complete();
+    };
+
     return content ? (
       <ModalWrapper
         handleClose={handleClose}
         handleReject={handleReject}
         content={content}
         data={modal.data}
+        handleLoading={handleLoading}
       />
     ) : null;
   };
 
-  return <div className="modals-layout">{renderModal()}</div>;
+  return (
+    <div className="modals-layout">
+      <LoadingBar
+        height={3}
+        color="#f11946"
+        onRef={ref => (loadingRef.current = ref)}
+      />
+      {renderModal()}
+    </div>
+  );
 }
 
 const mapStateToProps = state => ({
