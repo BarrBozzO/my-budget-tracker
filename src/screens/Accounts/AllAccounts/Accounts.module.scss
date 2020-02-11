@@ -2,6 +2,14 @@
 @import "~assets/scss/mixins";
 
 .accounts {
+  &__controls {
+    margin-bottom: 20px;
+
+    &-create {
+      text-transform: uppercase;
+    }
+  }
+
   &__stats {
     display: flex;
     flex-direction: row;
@@ -19,10 +27,11 @@
       flex: 1;
 
       & + & {
-        border-left: 1px solid $theme-dark-gray;
+        border-left: 1px solid $theme-light-gray;
       }
 
       &-label {
+        text-transform: uppercase;
         font-weight: 600;
       }
 

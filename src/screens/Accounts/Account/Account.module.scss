@@ -42,8 +42,35 @@
   }
 
   &-status {
+    display: flex;
+    align-items: center;
+    justify-content: start;
     font-size: 1.2rem;
     text-transform: uppercase;
+
+    svg {
+      display: block;
+      width: 14px;
+      height: 14px;
+    }
+
+    &--active {
+      svg {
+        fill: $theme-light-green;
+      }
+    }
+
+    &--closed {
+      svg {
+        fill: $theme-red;
+      }
+    }
+
+    &--blocked {
+      svg {
+        fill: $theme-dark-gray;
+      }
+    }
   }
 }
 
@@ -69,9 +96,23 @@
   }
 }
 
+.transaction {
+  &__type {
+    font-weight: 600;
+
+    &--credit {
+      color: $theme-green;
+    }
+
+    &--debit {
+      color: $theme-red;
+    }
+  }
+}
+
 .account__tooltip {
   &-trigger {
-    img {
+    &-icon {
       display: block;
       width: 16px;
       height: 16px;

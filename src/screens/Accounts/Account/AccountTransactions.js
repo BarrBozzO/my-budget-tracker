@@ -2,10 +2,16 @@ import React from "react";
 import { Table, Button } from "react-bootstrap";
 import cx from "classnames";
 import moment from "moment";
+import { formatNumber } from "utils";
 
 import styles from "./Account.module.scss";
 
-function AccountTransactions({ transactions, loading, onConduct }) {
+function AccountTransactions({
+  transactions,
+  loading,
+  onConduct,
+  accountBlocked
+}) {
   const renderContent = () => {
     if (loading) return "loading";
 
@@ -24,10 +30,21 @@ function AccountTransactions({ transactions, loading, onConduct }) {
           </thead>
           <tbody>
             {transactions.map(transaction => (
-              <tr>
+              <tr key={transaction.id}>
                 <td>{transaction.name}</td>
                 <td>{moment(transaction.date).format("MMM DD, YYYY HH:mm")}</td>
-                <td>{transaction.value}</td>
+                <td>
+                  <span
+                    className={cx(
+                      styles["transaction__type"],
+                      styles[`transaction__type--${transaction.type}`]
+                    )}
+                  >
+                    {`${
+                      transaction.type === "credit" ? "+" : "-"
+                    } ${formatNumber(transaction.value)}`}
+                  </span>
+                </td>
                 <td></td>
               </tr>
             ))}
@@ -45,7 +62,9 @@ function AccountTransactions({ transactions, loading, onConduct }) {
             Last Transactions
           </span>
           <div className={styles["account__transactions-header-actions"]}>
-            <Button onClick={onConduct}>Conduct transaction</Button>
+            <Button onClick={onConduct} disabled={accountBlocked}>
+              Conduct transaction
+            </Button>
           </div>
         </div>
         {renderContent()}

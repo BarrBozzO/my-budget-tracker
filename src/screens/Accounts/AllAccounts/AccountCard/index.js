@@ -1,5 +1,9 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import Status from "components/Status";
+import cx from "classnames";
+import { accountStatuses as ACCOUNT_STATUSES } from "constants";
+import { formatNumber } from "utils";
 
 import styles from "./AccountCard.module.scss";
 
@@ -16,14 +20,29 @@ function AccountCard({ data, statuses, currencies, history, location }) {
   return (
     <div className="col-lg-4 col-md-6 col-sm-12" onClick={handleCardClick}>
       <div className={styles.accounts__card}>
-        <div className={styles["accounts__card-title"]}>{name}</div>
-        <div>
-          <span className={styles["accounts__card-value"]}>{value}</span>
+        <div className={styles["accounts__card-row"]}>
+          <div className={styles["accounts__card-title"]}>{name}</div>
+        </div>
+        <div className={styles["accounts__card-row"]}>
+          <span className={styles["accounts__card-value"]}>
+            {formatNumber(value)}
+          </span>
           <span className={styles["accounts__card-currency"]}>
             {currency.isoCode}
           </span>
         </div>
-        <div className={styles["accounts__card-status"]}>{status.value}</div>
+        <div className={styles["accounts__card-row"]}>
+          <Status
+            icon={
+              (ACCOUNT_STATUSES.find(s => s.key === status.value) || {})["icon"]
+            }
+            label={status.value}
+            className={cx(
+              styles["accounts__card-status"],
+              styles[`accounts__card-status--${status.value}`]
+            )}
+          />
+        </div>
       </div>
     </div>
   );
