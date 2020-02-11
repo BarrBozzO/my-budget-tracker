@@ -5,9 +5,11 @@ import cx from "classnames";
 import Breadcrumbs from "components/Breadcrumbs";
 import Tooltip from "components/Tooltip";
 import Status from "components/Status";
+import Icon from "components/Icon";
 import Transactions from "./AccountTransactions";
 import { Button } from "react-bootstrap";
-import threeDotsMenu from "assets/svg/three-dots-menu.svg";
+import { accountStatuses as ACCOUNT_STATUSES } from "constants";
+import { formatNumber } from "utils";
 
 import { withActions } from "actions";
 import { getAccount } from "store/actions/account";
@@ -33,7 +35,7 @@ function Account({
     getTransactions(accountId);
   }, []);
 
-  if (loading) return "loading";
+  if (loading || accountId !== data.id) return "loading";
 
   const { name, description, value, statusId, currencyId } = data;
   const currency =
@@ -105,13 +107,16 @@ function Account({
                     </div>
                   )}
                 >
-                  <img src={threeDotsMenu} />
+                  <Icon
+                    name="three-dots"
+                    className={styles["account__tooltip-trigger-icon"]}
+                  />
                 </Tooltip.Trigger>
               </div>
             </div>
             <div className={styles["account__container-row"]}>
               <span className={styles["account__container-value"]}>
-                {value}
+                {formatNumber(value)}
               </span>
               <span className={styles["account__container-currency"]}>
                 {currency.isoCode}
@@ -119,25 +124,33 @@ function Account({
             </div>
             <div classame={styles["account__container-row"]}>
               <Status
-                icon="049-add"
+                icon={
+                  (ACCOUNT_STATUSES.find(s => s.key === status.value) || {})[
+                    "icon"
+                  ]
+                }
                 label={status.value}
-                className={styles["account__container-status"]}
+                className={cx(
+                  styles["account__container-status"],
+                  styles[`account__container-status--${status.value}`]
+                )}
               />
             </div>
-            {false && (
-              <div
-                className={cx(
-                  styles["account__container-description"],
-                  styles["account__container-row"]
-                )}
-              >
-                {description}
-              </div>
+          </div>
+        </div>
+        <div className={cx("col-lg-6", "col-md-6", "col-sm-6")}>
+          <div
+            className={cx(
+              styles["account__container-description"],
+              styles["account__container-row"]
             )}
+          >
+            {description}
           </div>
         </div>
       </div>
       <Transactions
+        accountBlocked={status.id !== "active"}
         transactions={transactions.data}
         loading={transactions.loading}
         onConduct={handleConductTransaction}

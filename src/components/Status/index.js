@@ -7,7 +7,7 @@ import styles from "./Status.module.scss";
 function Status({ icon, label, className }) {
   return (
     <div className={cx(className, styles["status"])}>
-      <Icon name={icon} /> {label}
+      <Icon name={icon} className={styles["status__icon"]} /> {label}
     </div>
   );
 }
