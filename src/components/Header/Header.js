@@ -1,6 +1,7 @@
 import React from "react";
-import classNames from "classnames";
+import cx from "classnames";
 import PropTypes from "prop-types";
+import Icon from "components/Icon";
 import { Button } from "react-bootstrap";
 
 import styles from "./Header.module.scss";
@@ -8,17 +9,14 @@ import styles from "./Header.module.scss";
 function Header(props) {
   return (
     <div
-      className={classNames(
-        "d-flex",
-        "flex-row-reverse",
-        "align-items-center",
-        "p-3"
-      )}
+      className={cx("d-flex", "flex-row-reverse", "align-items-center", "p-3")}
     >
-      <div
-        className={styles.header__user}
-        style={{ backgroundImage: "url('/')" }}
-      />
+      <div className={styles.header__user}>
+        <Icon
+          className={styles["header__user-avatar"]}
+          name="user-avatar-placeholder"
+        />
+      </div>
       <div className={styles["header__button-container"]}>
         <Button
           variant="link"

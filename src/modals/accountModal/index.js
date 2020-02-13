@@ -4,10 +4,12 @@ import PropTypes from "prop-types";
 import { Formik, ErrorMessage } from "formik";
 import { Modal, Button, Form } from "react-bootstrap";
 import { addAccount, updateAccount } from "store/actions/account";
+import { capitalize } from "utils";
 
-function accountModal({
+function AccountModal({
   data,
   handleClose,
+  handleLoading,
   currencies,
   statuses,
   addAccount,
@@ -15,15 +17,19 @@ function accountModal({
 }) {
   const { title, account, edit } = data;
 
-  const onSubmit = async (values, actions) => {
+  const onSubmit = async (values, { setSubmitting }) => {
     const action = edit ? updateAccount : addAccount;
 
+    handleLoading(true);
+    setSubmitting(true);
     try {
       await action(values);
       handleClose();
     } catch (e) {
       console.warn("shit, here we go again");
+      setSubmitting(false);
     }
+    handleLoading(false);
   };
 
   const renderForm = ({ isSubmitting, values, handleSubmit, handleChange }) => {
@@ -35,7 +41,7 @@ function accountModal({
             <Form.Control
               type="text"
               name="name"
-              value={values.name}
+              defaultValue={values.name}
               onChange={handleChange}
             />
             <ErrorMessage name="name" component="div" />
@@ -45,7 +51,7 @@ function accountModal({
             <Form.Control
               as="textarea"
               name="description"
-              value={values.description}
+              defaultValue={values.description}
               onChange={handleChange}
             />
             <ErrorMessage name="description" component="div" />
@@ -55,30 +61,36 @@ function accountModal({
             <Form.Control
               as="select"
               name="currencyId"
-              value={values.currencyId}
+              defaultValue={values.currencyId}
               onChange={handleChange}
             >
-              <option value="">Select currency</option>
+              {!edit && <option value="">Select currency</option>}
               {currencies.map(currency => (
-                <option value={currency.id}>{currency.isoCode}</option>
+                <option key={currency.id} value={currency.id}>
+                  {currency.isoCode}
+                </option>
               ))}
             </Form.Control>
             <ErrorMessage name="currencyId" component="div" />
           </Form.Row>
-          <Form.Row>
-            <Form.Label>Status</Form.Label>
-            <Form.Control
-              as="select"
-              name="statusId"
-              value={values.statusId}
-              onChange={handleChange}
-            >
-              {statuses.map(status => (
-                <option value={status.id}>{status.value}</option>
-              ))}
-            </Form.Control>
-            <ErrorMessage name="statusId" component="div" />
-          </Form.Row>
+          {edit && (
+            <Form.Row>
+              <Form.Label>Status</Form.Label>
+              <Form.Control
+                as="select"
+                name="statusId"
+                defaultValue={values.statusId}
+                onChange={handleChange}
+              >
+                {statuses.map(status => (
+                  <option key={status.id} value={status.id}>
+                    {capitalize(status.value)}
+                  </option>
+                ))}
+              </Form.Control>
+              <ErrorMessage name="statusId" component="div" />
+            </Form.Row>
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
@@ -125,13 +137,13 @@ function accountModal({
   );
 }
 
-accountModal.propTypes = {
+AccountModal.propTypes = {
   data: PropTypes.object,
   currencies: PropTypes.array.isRequired,
   statuses: PropTypes.array.isRequired
 };
 
-accountModal.defaultProps = {
+AccountModal.defaultProps = {
   data: {},
   currencies: [],
   statuses: []
@@ -147,4 +159,4 @@ const mapDispatchToProps = {
   updateAccount
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(accountModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AccountModal);

@@ -7,6 +7,7 @@ import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 
 import rootSaga from "./sagas";
 import rootReducer from "./reducers";
+import createPromiseMiddleware from "./middleware/createPromiseMiddleware";
 
 const persistConfig = {
   key: "root",
@@ -20,7 +21,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   persistedReducer,
-  applyMiddleware(sagaMiddleware, logger)
+  applyMiddleware(sagaMiddleware, logger, createPromiseMiddleware)
 );
 export const persistor = persistStore(store);
 

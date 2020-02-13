@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import classNames from "classnames";
+import cx from "classnames";
 import { Route, Switch } from "react-router-dom";
 
 import { signOut } from "store/actions/auth";
@@ -12,7 +12,9 @@ import Header from "components/Header/Header";
 import Home from "components/Home/Home";
 import Accounts from "../Accounts";
 import Sidebar from "components/Sidebar/Sidebar";
-import ModalsLayout from "modals";
+import { ModalLayout } from "modals";
+
+import styles from "./Dashboard.module.scss";
 
 function Dashboard(props) {
   useEffect(() => {
@@ -60,11 +62,16 @@ function Dashboard(props) {
   ];
 
   return (
-    <div className="d-flex d-flex-row">
+    <div className={cx(styles.dashboard)}>
       <Sidebar />
-      <div className={classNames("d-flex flex-grow-1 flex-column")}>
+      <div
+        className={cx(
+          styles["dashboard__workplace"],
+          "d-flex flex-grow-1 flex-column"
+        )}
+      >
         <Header handleSignOut={props.signOut} />
-        <div className={classNames("d-flex", "p-3")}>
+        <div className={cx("d-flex", "p-3")}>
           <Switch>
             {routes.map((route, index) => (
               <Route
@@ -77,7 +84,8 @@ function Dashboard(props) {
           </Switch>
         </div>
       </div>
-      <ModalsLayout />
+      <div id="tooltips-layout"></div>
+      <ModalLayout />
     </div>
   );
 }

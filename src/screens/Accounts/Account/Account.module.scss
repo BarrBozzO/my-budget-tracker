@@ -2,15 +2,124 @@
 @import "~assets/scss/mixins";
 
 .account__container {
-  @include content-card;
+  &-card {
+    @include content-card;
+  }
+
+  &-row {
+    &:not(:first-child) {
+      margin-top: 8px;
+    }
+  }
 
   &-title {
-    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    font-size: 1.8rem;
     text-transform: uppercase;
     font-weight: 600;
   }
 
   &-content {
     padding-top: 20px;
+  }
+
+  &-value {
+    font-size: 2.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  &-currency {
+    font-size: 2rem;
+    font-weight: 100;
+    color: $theme-dark-gray;
+    margin-left: 8px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  &-status {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+
+    svg {
+      display: block;
+      width: 14px;
+      height: 14px;
+    }
+
+    &--active {
+      svg {
+        fill: $theme-light-green;
+      }
+    }
+
+    &--closed {
+      svg {
+        fill: $theme-red;
+      }
+    }
+
+    &--blocked {
+      svg {
+        fill: $theme-dark-gray;
+      }
+    }
+  }
+}
+
+.account__transactions {
+  margin-top: 16px;
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &-text {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+  }
+
+  &-content {
+    @include content-card;
+
+    padding: 0;
+  }
+}
+
+.transaction {
+  &__type {
+    font-weight: 600;
+
+    &--credit {
+      color: $theme-green;
+    }
+
+    &--debit {
+      color: $theme-red;
+    }
+  }
+}
+
+.account__tooltip {
+  &-trigger {
+    &-icon {
+      display: block;
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &-content {
+    padding: 0;
   }
 }

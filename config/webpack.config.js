@@ -177,6 +177,7 @@ module.exports = function(webpackEnv) {
         : isEnvDevelopment &&
           (info => path.resolve(info.absoluteResourcePath).replace(/\\/g, "/"))
     },
+    context: path.resolve(appPath, "src"),
     optimization: {
       minimize: isEnvProduction,
       minimizer: [
@@ -277,7 +278,10 @@ module.exports = function(webpackEnv) {
         components: path.resolve(appPath, "src/components/"),
         assets: path.resolve(appPath, "src/assets/"),
         modals: path.resolve(appPath, "src/modals/"),
-        store: path.resolve(appPath, "src/store/")
+        store: path.resolve(appPath, "src/store/"),
+        utils: path.resolve(appPath, "src/utils/"),
+        actions: path.resolve(appPath, "src/actions"),
+        constants: path.resolve(appPath, "src/constants")
       },
       plugins: [
         // Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -335,6 +339,25 @@ module.exports = function(webpackEnv) {
                 limit: 10000,
                 name: "static/media/[name].[hash:8].[ext]"
               }
+            },
+            {
+              test: /\.svg$/,
+              include: path.resolve(appPath, "src/assets/icons"),
+              use: [
+                {
+                  loader: "svg-sprite-loader"
+                },
+                {
+                  loader: "svgo-loader",
+                  options: {
+                    plugins: [
+                      { removeTitle: true },
+                      { convertColors: { shorthex: false } },
+                      { convertPathData: false }
+                    ]
+                  }
+                }
+              ]
             },
             // Process application JS with Babel.
             // The preset includes JSX, Flow, TypeScript, and some ESnext features.

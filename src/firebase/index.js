@@ -1,9 +1,15 @@
 import app from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/functions";
 
 import firebaseConfig from "./config";
-import { normalizeUserData, normalizeAccountData } from "../utils/normalize";
+import {
+  normalizeUserData,
+  normalizeAccountData,
+  normalizeTransactionData,
+  generateAccountPayload
+} from "../utils/normalize";
 
 class Firebase {
   constructor() {
@@ -11,6 +17,7 @@ class Firebase {
 
     this.auth = app.auth();
     this.db = app.firestore();
+    this.functions = app.functions();
 
     this.googleAuthProvider = new app.auth.GoogleAuthProvider();
 
@@ -29,6 +36,11 @@ class Firebase {
 
     this._getDocumentsListener = this._getDocumentsListener.bind(this);
     this._getMetaData = this._getMetaData.bind(this);
+
+    this.creditTransaction = this.creditTransaction.bind(this);
+    this.debitTransaction = this.debitTransaction.bind(this);
+    this.getTransactions = this.getTransactions.bind(this);
+    this._conductTransaction = this._conductTransaction.bind(this);
   }
 
   signInWithGoogle() {
@@ -68,7 +80,7 @@ class Firebase {
 
     return this.db
       .collection("accounts")
-      .add({ user_id: currentUser.uid, ...account })
+      .add({ user_id: currentUser.uid, ...generateAccountPayload(account) })
       .then(accountRef => {
         return { id: accountRef.id };
       })
@@ -81,10 +93,8 @@ class Firebase {
     return this.db
       .collection("accounts")
       .doc(account.id)
-      .set({ ...account })
-      .then(accountRef => {
-        return { id: accountRef.id };
-      })
+      .set(generateAccountPayload(account), { merge: true })
+      .then(() => ({ id: account.id }))
       .catch(error => ({
         error
       }));
@@ -96,8 +106,14 @@ class Firebase {
     return accountRef
       .get()
       .then(function(account) {
-        if (account.exists) return { account: account.data() };
-        else throw new Error("Account doesn't exist");
+        if (account.exists) {
+          return {
+            account: {
+              id: account.id,
+              ...normalizeAccountData(account.data())
+            }
+          };
+        } else throw new Error("Account doesn't exist");
       })
       .catch(function(error) {
         return { error };
@@ -176,12 +192,74 @@ class Firebase {
     return this._getDocumentsListener(query, fn, normalizeAccountData);
   }
 
+  // Transaction
+
+  getTransactions({ accountId }) {
+    const collection = this.db.collection("transactions");
+
+    return collection
+      .where("account_id", "==", accountId)
+      .get()
+      .then(function(data) {
+        if (!Array.isArray(data.docs))
+          throw new Error("There was error during transactions fetch!");
+
+        const normalizedData = data.docs.map(function(doc) {
+          return {
+            id: doc.id,
+            ...normalizeTransactionData(doc.data())
+          };
+        });
+        return { data: normalizedData };
+      })
+      .catch(function(error) {
+        return { error };
+      });
+  }
+
+  creditTransaction({ value, accountId, name, description }) {
+    return this._conductTransaction({
+      type: "credit",
+      name,
+      description,
+      value,
+      account_id: accountId
+    });
+  }
+
+  debitTransaction({ value, accountId, name, description }) {
+    return this._conductTransaction({
+      type: "debit",
+      name,
+      description,
+      value,
+      account_id: accountId
+    });
+  }
+
+  _conductTransaction({ type, value, account_id, name, description }) {
+    const conductTransaction = this.functions.httpsCallable(
+      "conductTransaction"
+    );
+    return conductTransaction({ type, value, account_id, name, description })
+      .then(() => {
+        return true;
+      })
+      .catch(({ message }) => {
+        return {
+          error: {
+            message
+          }
+        };
+      });
+  }
+
   /**
    *
    * @param {*} doc
    */
-  _getMetaData(doc) {
-    return { _pending: doc.metadata && doc.metadata.hasPendingWrites };
+  _getMetaData(doc, type) {
+    return { _pending: doc.metadata && doc.metadata.hasPendingWrites, type };
   }
 
   _getDocumentsListener(query, fn, normalize) {
@@ -194,7 +272,7 @@ class Firebase {
           typeof normalize === "function"
             ? normalize(change.doc.data())
             : change.doc.data();
-        const metadata = _this._getMetaData(change.doc.metadata);
+        const metadata = _this._getMetaData(change.doc.metadata, change.type);
 
         return {
           id: change.doc.id,

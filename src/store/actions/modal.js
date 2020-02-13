@@ -1,9 +1,10 @@
 import { MODAL_CLOSE, MODAL_OPEN } from "./types";
 
-export function openModal(name, data = {}) {
+export function openModal(id, name, data = {}) {
   return {
     type: MODAL_OPEN,
     payload: {
+      id,
       name,
       data
     }

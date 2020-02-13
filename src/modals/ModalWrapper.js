@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal } from "react-bootstrap";
 
-function ModalWrapper({ content, data, handleClose }) {
+function ModalWrapper({ content, data, handleClose, handleLoading }) {
   const ModalContent = content;
 
   return (
     <Modal show onHide={() => handleClose()}>
-      <ModalContent handleClose={() => handleClose()} data={data} />
+      <ModalContent
+        handleClose={handleClose}
+        handleLoading={handleLoading}
+        data={data}
+      />
     </Modal>
   );
 }

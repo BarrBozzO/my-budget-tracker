@@ -1,0 +1,71 @@
+@import "../../../../assets/scss/variables";
+@import "../../../../assets/scss/mixins";
+
+.accounts__card {
+  @include content-card;
+  cursor: pointer;
+
+  &-row {
+    &:not(:first-child) {
+      margin-top: 8px;
+    }
+  }
+
+  &-title {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  &-value {
+    font-size: 1.6rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  &-currency {
+    font-size: 1.2rem;
+    font-weight: 100;
+    color: $theme-dark-gray;
+    margin-left: 8px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  &-status {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    font-size: 1rem;
+    line-height: 1;
+    text-transform: uppercase;
+
+    svg {
+      display: block;
+      width: 12px;
+      height: 12px;
+    }
+
+    &--active {
+      svg {
+        fill: $theme-light-green;
+      }
+    }
+
+    &--closed {
+      svg {
+        fill: $theme-red;
+      }
+    }
+
+    &--blocked {
+      svg {
+        fill: $theme-dark-gray;
+      }
+    }
+  }
+
+  &-content {
+    padding-top: 20px;
+  }
+}
