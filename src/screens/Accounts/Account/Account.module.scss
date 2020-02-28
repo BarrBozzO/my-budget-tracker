@@ -8,7 +8,7 @@
 
   &-row {
     &:not(:first-child) {
-      margin-top: 8px;
+      margin-top: 16px;
     }
   }
 
@@ -17,7 +17,7 @@
     align-items: center;
     justify-content: space-between;
 
-    font-size: 1.8rem;
+    font-size: 1.68rem;
     text-transform: uppercase;
     font-weight: 600;
   }
@@ -28,6 +28,7 @@
 
   &-value {
     font-size: 2.8rem;
+    line-height: 1;
     font-weight: 600;
     white-space: nowrap;
   }
@@ -45,8 +46,12 @@
     display: flex;
     align-items: center;
     justify-content: start;
-    font-size: 1.2rem;
+    font-size: 1rem;
+    color: $theme-dark-gray-2;
     text-transform: uppercase;
+    font-weight: 600;
+    line-height: 1;
+    margin-top: 4px;
 
     svg {
       display: block;
@@ -87,6 +92,10 @@
       font-weight: 600;
       margin-bottom: 16px;
     }
+
+    &-conduct {
+      width: auto;
+    }
   }
 
   &-content {
@@ -116,6 +125,10 @@
       display: block;
       width: 16px;
       height: 16px;
+
+      svg {
+        display: block;
+      }
     }
   }
 

@@ -1,5 +1,12 @@
+@import "~assets/scss/variables";
+@import "~assets/scss/mixins";
+
 .dashboard {
   &__workplace {
     margin-left: 260px;
+
+    @include lg-screen-down {
+      margin-left: 60px;
+    }
   }
 }

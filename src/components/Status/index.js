@@ -4,10 +4,11 @@ import Icon from "components/Icon";
 
 import styles from "./Status.module.scss";
 
-function Status({ icon, label, className }) {
+function Status({ icon, label, className, iconClassName }) {
   return (
     <div className={cx(className, styles["status"])}>
-      <Icon name={icon} className={styles["status__icon"]} /> {label}
+      <Icon name={icon} className={cx(iconClassName, styles["status__icon"])} />{" "}
+      {label}
     </div>
   );
 }

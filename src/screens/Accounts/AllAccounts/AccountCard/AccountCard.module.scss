@@ -3,22 +3,31 @@
 
 .accounts__card {
   @include content-card;
-  cursor: pointer;
+  border: 2px solid $white;
+  transition: ease-in-out 150ms;
+
+  &:hover {
+    cursor: pointer;
+    border: 2px solid $primary-purple;
+    transform: scale(1.05);
+    box-shadow: 0 9px 20px -6px rgba($theme-black, 0.3);
+  }
 
   &-row {
     &:not(:first-child) {
-      margin-top: 8px;
+      margin-top: 16px;
     }
   }
 
   &-title {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     text-transform: uppercase;
     font-weight: 600;
   }
 
   &-value {
-    font-size: 1.6rem;
+    font-size: 2rem;
+    line-height: 1;
     font-weight: 600;
     white-space: nowrap;
   }
@@ -36,14 +45,21 @@
     display: flex;
     align-items: center;
     justify-content: start;
-    font-size: 1rem;
+    color: $theme-dark-gray-2;
+    font-size: 0.8rem;
+    font-weight: 600;
     line-height: 1;
     text-transform: uppercase;
+    margin-top: 4px;
+
+    &__icon {
+      margin-right: 4px;
+    }
 
     svg {
       display: block;
-      width: 12px;
-      height: 12px;
+      width: 0.8rem;
+      height: 0.8rem;
     }
 
     &--active {

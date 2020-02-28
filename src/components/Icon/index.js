@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import cx from "classnames";
 import PropTypes from "prop-types";
 
-import styles from "./Icon.module.scss";
-
 function Icon({ name, className }) {
   const [icon, setIcon] = useState(null);
 
-  async function getIcon() {
+  const getIcon = async () => {
     try {
       const { default: importedIcon } = await import(
         `assets/icons/${name}.svg`
@@ -16,7 +14,7 @@ function Icon({ name, className }) {
     } catch (e) {
       console.error("Unable to import icon");
     }
-  }
+  };
 
   useEffect(() => {
     if (name) getIcon();
@@ -24,7 +22,7 @@ function Icon({ name, className }) {
 
   if (icon) {
     return (
-      <div className={cx(styles["icon"], className)}>
+      <div className={cx("icon", className)}>
         <svg
           viewBox={icon.viewBox}
           dangerouslySetInnerHTML={{

@@ -1,15 +1,20 @@
 import React from "react";
-import cx from "classnames";
+import classNames from "classnames";
 import PropTypes from "prop-types";
-import Icon from "components/Icon";
-import { Button } from "react-bootstrap";
+
+import { Button, Icon } from "components";
 
 import styles from "./Header.module.scss";
 
 function Header(props) {
   return (
     <div
-      className={cx("d-flex", "flex-row-reverse", "align-items-center", "p-3")}
+      className={classNames(
+        "d-flex",
+        "flex-row-reverse",
+        "align-items-center",
+        "p-3"
+      )}
     >
       <div className={styles.header__user}>
         <Icon
@@ -22,6 +27,7 @@ function Header(props) {
           variant="link"
           onClick={props.handleSignOut}
           className={styles.header__button}
+          flat
         >
           Sign Out
         </Button>
