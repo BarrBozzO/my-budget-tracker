@@ -11,6 +11,30 @@
   box-shadow: 0 1px 4px 0 rgba(39, 36, 38, 0.14);
   @include transition(margin-left);
 
+  &__brand {
+    color: $white;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1.4rem;
+    padding: 20px 0 15px;
+    margin-bottom: 10px;
+    text-align: center;
+    border-bottom: 1px solid rgba($theme-black, 0.1);
+    background-color: $primary-purple;
+  }
+
+  @include lg-screen-down {
+    width: 60px;
+
+    &__brand {
+      span {
+        display: none;
+      }
+      padding: 0;
+      margin: 0;
+    }
+  }
+
   & .sidebar_collapsed {
     margin-left: -260px;
   }
@@ -21,14 +45,5 @@
     &:hover {
       color: $theme-blue;
     }
-  }
-
-  & .sidebar__brand {
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 1.4rem;
-    padding: 20px 0 15px;
-    text-align: center;
-    border-bottom: 1px solid rgba($theme-black, 0.1);
   }
 }

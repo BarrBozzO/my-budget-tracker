@@ -1,0 +1,70 @@
+@import "~assets/scss/variables";
+@import "~assets/scss/mixins";
+
+.primary-button {
+  width: 100px;
+  height: 36px;
+  border-radius: $border-radius;
+
+  background-color: $primary-purple;
+  color: $white;
+  font-size: 14px;
+  line-height: 1;
+  border: none;
+  text-transform: uppercase;
+
+  @include light-shadow;
+
+  &:focus,
+  &:active,
+  &:hover,
+  &:focus:active {
+    &:not(:disabled):not(.primary-button--flat):not(.primary-button--link):not(.primary-button--secondary) {
+      background-color: lighten($primary-purple, 10%) !important;
+    }
+  }
+
+  &:disabled,
+  &.disabled {
+    opacity: 0.65;
+    background-color: $primary-purple;
+  }
+
+  &--secondary {
+    border: 1px solid $primary-purple;
+    color: $primary-purple;
+    background-color: transparent;
+
+    &:hover,
+    &:focus,
+    &:active {
+      &:not(:disabled):not(.disabled) {
+        color: $primary-purple;
+        background-color: transparent;
+        border: 1px solid $primary-purple;
+      }
+    }
+  }
+
+  &--flat {
+    width: auto;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  &--link {
+    background-color: transparent;
+    color: $primary-purple;
+    box-shadow: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+      &:not(:disabled):not(.disabled) {
+        color: $primary-purple;
+        text-decoration: underline;
+        background-color: transparent;
+      }
+    }
+  }
+}

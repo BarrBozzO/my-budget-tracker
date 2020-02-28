@@ -1,18 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button } from "react-bootstrap";
-
-import styles from "./Accounts.module.scss";
+import { Button } from "components";
 
 function AccountsControlsBar({ onCreate }) {
   return (
-    <div className={styles["accounts__controls"]}>
-      <Button
-        className={styles["accounts__controls-create"]}
-        onClick={onCreate}
-      >
-        create
-      </Button>
+    <div>
+      <Button onClick={onCreate}>create</Button>
     </div>
   );
 }

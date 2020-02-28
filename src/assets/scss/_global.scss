@@ -12,6 +12,25 @@ body {
   background-color: $theme-gray;
 }
 
+textarea,
+select,
+input,
+button {
+  outline: none;
+}
+
+button {
+  &:hover,
+  &:focus,
+  &:active,
+  &:focus:active {
+    &:not(:disabled):not(.disabled) {
+      background-color: none !important;
+      box-shadow: none !important;
+    }
+  }
+}
+
 #wrapper {
   display: flex;
   #content-wrapper {

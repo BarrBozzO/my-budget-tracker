@@ -2,8 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Formik, ErrorMessage } from "formik";
-import { Modal, Button, Form } from "react-bootstrap";
-import { transactionTypes as TRANSACTION_TYPES } from "../../constants";
+import { Modal, Form } from "react-bootstrap";
+import { Button } from "components";
+import { transactionTypes as TRANSACTION_TYPES } from "constants";
 import { capitalize } from "utils";
 import { transactionCredit, transactionDebit } from "store/actions/transaction";
 
@@ -88,7 +89,7 @@ function TransactionModal({
         </Modal.Body>
         <Modal.Footer>
           <Button
-            variant="secondary"
+            secondary
             onClick={handleClose}
             // disabled={isLoading}
           >

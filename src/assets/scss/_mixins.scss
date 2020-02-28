@@ -46,3 +46,13 @@
   padding: 15px;
   margin-bottom: 15px;
 }
+
+@mixin light-shadow {
+  box-shadow: 0 1px 4px 0 rgba($theme-black, 0.14);
+}
+
+@mixin lg-screen-down {
+  @media only screen and (max-width: $breakpoint-lg) {
+    @content;
+  }
+}

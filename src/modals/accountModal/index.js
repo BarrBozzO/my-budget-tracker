@@ -2,7 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Formik, ErrorMessage } from "formik";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Form } from "react-bootstrap";
+import { Button } from "components";
 import { addAccount, updateAccount } from "store/actions/account";
 import { capitalize } from "utils";
 
@@ -93,10 +94,10 @@ function AccountModal({
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button secondary onClick={handleClose}>
             Cancel
           </Button>
-          <Button type="submit" variant="primary" disabled={isSubmitting}>
+          <Button type="submit" disabled={isSubmitting}>
             Submit
           </Button>
         </Modal.Footer>

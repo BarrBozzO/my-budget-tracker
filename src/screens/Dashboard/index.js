@@ -8,10 +8,9 @@ import { getAccount } from "store/actions/account";
 import { getCurrencies } from "store/actions/currencies";
 import { getStatuses } from "store/actions/statuses";
 
-import Header from "components/Header/Header";
-import Home from "components/Home/Home";
+import { Header, Home, Sidebar } from "components";
+
 import Accounts from "../Accounts";
-import Sidebar from "components/Sidebar/Sidebar";
 import { ModalLayout } from "modals";
 
 import styles from "./Dashboard.module.scss";

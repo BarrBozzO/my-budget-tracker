@@ -22,16 +22,6 @@ function AccountCard({ data, statuses, currencies, history, location }) {
       <div className={styles.accounts__card}>
         <div className={styles["accounts__card-row"]}>
           <div className={styles["accounts__card-title"]}>{name}</div>
-        </div>
-        <div className={styles["accounts__card-row"]}>
-          <span className={styles["accounts__card-value"]}>
-            {formatNumber(value)}
-          </span>
-          <span className={styles["accounts__card-currency"]}>
-            {currency.isoCode}
-          </span>
-        </div>
-        <div className={styles["accounts__card-row"]}>
           <Status
             icon={
               (ACCOUNT_STATUSES.find(s => s.key === status.value) || {})["icon"]
@@ -41,7 +31,16 @@ function AccountCard({ data, statuses, currencies, history, location }) {
               styles["accounts__card-status"],
               styles[`accounts__card-status--${status.value}`]
             )}
+            iconClassName={styles["accounts__card-status__icon"]}
           />
+        </div>
+        <div className={styles["accounts__card-row"]}>
+          <span className={styles["accounts__card-value"]}>
+            {formatNumber(value)}
+          </span>
+          <span className={styles["accounts__card-currency"]}>
+            {currency.isoCode}
+          </span>
         </div>
       </div>
     </div>

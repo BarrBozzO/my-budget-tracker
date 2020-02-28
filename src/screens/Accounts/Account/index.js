@@ -2,12 +2,8 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import cx from "classnames";
-import Breadcrumbs from "components/Breadcrumbs";
-import Tooltip from "components/Tooltip";
-import Status from "components/Status";
-import Icon from "components/Icon";
+import { Icon, Status, Tooltip, Breadcrumbs, Button } from "components";
 import Transactions from "./AccountTransactions";
-import { Button } from "react-bootstrap";
 import { accountStatuses as ACCOUNT_STATUSES } from "constants";
 import { formatNumber } from "utils";
 
@@ -82,47 +78,35 @@ function Account({
       <div className="row">
         <div className={cx("col-lg-6", "col-md-6", "col-sm-6")}>
           <div className={cx(styles["account__container-card"])}>
-            <div
-              className={cx(
-                styles["account__container-title"],
-                styles["account__container-row"]
-              )}
-            >
-              {name}
-              <div className={styles["account__container-actions"]}>
-                <Tooltip.Trigger
-                  classNames={{
-                    trigger: styles["account__tooltip-trigger"],
-                    content: styles["account__tooltip-content"]
-                  }}
-                  render={() => (
-                    <div>
-                      <Button
-                        className={styles["account__tooltip-button"]}
-                        variant="link"
-                        onClick={() => handleEditAccount()}
-                      >
-                        Edit
-                      </Button>
-                    </div>
-                  )}
-                >
-                  <Icon
-                    name="three-dots"
-                    className={styles["account__tooltip-trigger-icon"]}
-                  />
-                </Tooltip.Trigger>
-              </div>
-            </div>
             <div className={styles["account__container-row"]}>
-              <span className={styles["account__container-value"]}>
-                {formatNumber(value)}
-              </span>
-              <span className={styles["account__container-currency"]}>
-                {currency.isoCode}
-              </span>
-            </div>
-            <div classame={styles["account__container-row"]}>
+              <div className={styles["account__container-title"]}>
+                {name}
+                <div className={styles["account__container-actions"]}>
+                  <Tooltip.Trigger
+                    classNames={{
+                      trigger: styles["account__tooltip-trigger"],
+                      content: styles["account__tooltip-content"]
+                    }}
+                    render={() => (
+                      <div>
+                        <Button
+                          className={styles["account__tooltip-button"]}
+                          link
+                          onClick={() => handleEditAccount()}
+                        >
+                          Edit
+                        </Button>
+                      </div>
+                    )}
+                  >
+                    <Icon
+                      name="three-dots"
+                      className={styles["account__tooltip-trigger-icon"]}
+                    />
+                  </Tooltip.Trigger>
+                </div>
+              </div>
+
               <Status
                 icon={
                   (ACCOUNT_STATUSES.find(s => s.key === status.value) || {})[
@@ -135,6 +119,14 @@ function Account({
                   styles[`account__container-status--${status.value}`]
                 )}
               />
+            </div>
+            <div className={styles["account__container-row"]}>
+              <span className={styles["account__container-value"]}>
+                {formatNumber(value)}
+              </span>
+              <span className={styles["account__container-currency"]}>
+                {currency.isoCode}
+              </span>
             </div>
           </div>
         </div>

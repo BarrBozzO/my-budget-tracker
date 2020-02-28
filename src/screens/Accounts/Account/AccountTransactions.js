@@ -1,7 +1,8 @@
 import React from "react";
-import { Table, Button } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import cx from "classnames";
 import moment from "moment";
+import { Button } from "components";
 import { formatNumber } from "utils";
 
 import styles from "./Account.module.scss";
@@ -62,7 +63,11 @@ function AccountTransactions({
             Last Transactions
           </span>
           <div className={styles["account__transactions-header-actions"]}>
-            <Button onClick={onConduct} disabled={accountBlocked}>
+            <Button
+              className={styles["account__transactions-header-conduct"]}
+              onClick={onConduct}
+              disabled={accountBlocked}
+            >
               Conduct transaction
             </Button>
           </div>
