@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { AUTH_SIGN_OUT_DONE } from "../actions/types";
 
 import authReducer from "./auth";
 import accountsReducer from "./accounts";
@@ -9,7 +10,7 @@ import modalReducer from "./modal";
 import transactionsReducer from "./transactions";
 import transactionReducer from "./transaction";
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   auth: authReducer,
   account: accountReducer,
   accounts: accountsReducer,
@@ -19,5 +20,13 @@ const rootReducer = combineReducers({
   currencies: currenciesReducer,
   modal: modalReducer
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === AUTH_SIGN_OUT_DONE) {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};
 
 export default rootReducer;
