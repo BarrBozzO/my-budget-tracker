@@ -258,8 +258,8 @@ class Firebase {
    *
    * @param {*} doc
    */
-  _getMetaData(doc, type) {
-    return { _pending: doc.metadata && doc.metadata.hasPendingWrites, type };
+  _getMetaData(metadata, type) {
+    return { _pending: metadata && metadata.hasPendingWrites, type };
   }
 
   _getDocumentsListener(query, fn, normalize) {

@@ -1,12 +1,18 @@
-@import "../../../../assets/scss/variables";
-@import "../../../../assets/scss/mixins";
+@import "~assets/scss/variables";
+@import "~assets/scss/mixins";
 
 .accounts__card {
   @include content-card;
   border: 2px solid $white;
   transition: ease-in-out 150ms;
 
-  &:hover {
+  &--pending {
+    cursor: not-allowed;
+    opacity: 0.6;
+    box-shadow: none;
+  }
+
+  &:hover:not(.accounts__card--pending) {
     cursor: pointer;
     border: 2px solid $primary-purple;
     transform: scale(1.05);
