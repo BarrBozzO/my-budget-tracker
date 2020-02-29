@@ -12,14 +12,20 @@ function AccountCard({ data, statuses, currencies, history, location }) {
   const currency =
     currencies.find(currency => currency.id === currencyId) || {};
   const status = statuses.find(status => status.id === statusId) || {};
+  const pending = data.metadata._pending;
 
   const handleCardClick = () => {
+    if (pending) return false;
     return history.push(`${location.pathname}/${data.id}`);
   };
 
   return (
     <div className="col-lg-4 col-md-6 col-sm-12" onClick={handleCardClick}>
-      <div className={styles.accounts__card}>
+      <div
+        className={cx(styles.accounts__card, {
+          [styles["accounts__card--pending"]]: pending
+        })}
+      >
         <div className={styles["accounts__card-row"]}>
           <div className={styles["accounts__card-title"]}>{name}</div>
           <Status

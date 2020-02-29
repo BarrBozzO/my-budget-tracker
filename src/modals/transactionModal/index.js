@@ -64,6 +64,8 @@ function TransactionModal({
               name="value"
               min="0"
               max="9999999"
+              step="0.01"
+              inputMode="decimal"
               defaultValue={values.value}
               onChange={handleChange}
             />
